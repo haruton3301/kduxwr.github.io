@@ -1,71 +1,81 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>browserCamamera sample01</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <style>
-        html {
-            height: 100%;
-        }
-        body {
-        margin: 0 auto;
-        height: 100%;
-        }
 
-        video {
-            width: 100%;
-            height: 100%;
-            object-fit: fill;
-        }
-        *::-webkit-media-controls-panel {
-  display: none!important;
-  -webkit-appearance: none;
-}
+<head>
+  <meta charset="utf-8">
+  <title>browserCamamera sample01</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+  <style>
+    html {
+      height: 100%;
+    }
 
-*::--webkit-media-controls-play-button {
-  display: none!important;
-  -webkit-appearance: none;
-}
+    body {
+      margin: 0 auto;
+      height: 100%;
+    }
 
-*::-webkit-media-controls-start-playback-button {
-  display: none!important;
-  -webkit-appearance: none;
-}
-    </style>
-  </head>
-  <body>
-    <video id="video" autoplay playsinline="true"　controls="false"></video>
-    <script>
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+    }
+
+    *::-webkit-media-controls-panel {
+      display: none !important;
+      -webkit-appearance: none;
+    }
+
+    *::--webkit-media-controls-play-button {
+      display: none !important;
+      -webkit-appearance: none;
+    }
+
+    *::-webkit-media-controls-start-playback-button {
+      display: none !important;
+      -webkit-appearance: none;
+    }
+  </style>
+</head>
+
+<body>
+  <video id="video" autoplay playsinline="true" 　controls="false"></video>
+  <script>
+    (function () {
       navigator.mediaDevices = navigator.mediaDevices || ((navigator.mozGetUserMedia || navigator.webkitGetUserMedia) ? {
-   getUserMedia: function(c) {
-     return new Promise(function(y, n) {
-       (navigator.mozGetUserMedia ||
-        navigator.webkitGetUserMedia).call(navigator, c, y, n);
-     });
-   }
-} : null);
+        getUserMedia: function (c) {
+          return new Promise(function (y, n) {
+            (navigator.mozGetUserMedia ||
+              navigator.webkitGetUserMedia).call(navigator, c, y, n);
+          });
+        }
+      } : null);
 
-if (!navigator.mediaDevices) {
-  alert("すみません。あなたの端末では動作しません。");
-  return;
-}
-    var video = document.getElementById('video');
-    var constraints = {
+      if (!navigator.mediaDevices) {
+        alert("すみません。あなたの端末では動作しません。");
+        return;
+      }
+      var video = document.getElementById('video');
+      var constraints = {
         audio: false,
         video: {
-            // スマホのバックカメラを使用
-            facingMode: 'environment'
+          // スマホのバックカメラを使用
+          facingMode: 'environment'
         }
-    };
-    //  カメラの映像を取得
-    navigator.mediaDevices.getUserMedia(constraints)
+      };
+      //  カメラの映像を取得
+      navigator.mediaDevices.getUserMedia(constraints)
         .then((stream) => {
-            video.srcObject = stream;
+          video.srcObject = stream;
+          video.onloadedmetadata = function (e) {
+            video.play();
+          };
         })
         .catch((err) => {
-            window.alert(err.name + ': ' + err.message);
+          window.alert(err.name + ': ' + err.message);
         });
-    </script>
-  </body>
+    }());
+  </script>
+</body>
+
 </html>
