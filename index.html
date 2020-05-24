@@ -28,17 +28,19 @@
     }
 
     *::-webkit-media-controls-panel {
-  display: none!important;
-  -webkit-appearance: none;
-}
-*::--webkit-media-controls-play-button {
-  display: none!important;
-  -webkit-appearance: none;
-}
-*::-webkit-media-controls-start-playback-button {
-  display: none!important;
-  -webkit-appearance: none;
-}
+      display: none !important;
+      -webkit-appearance: none;
+    }
+
+    *::--webkit-media-controls-play-button {
+      display: none !important;
+      -webkit-appearance: none;
+    }
+
+    *::-webkit-media-controls-start-playback-button {
+      display: none !important;
+      -webkit-appearance: none;
+    }
 
     .button-area {
       width: 100%;
@@ -59,23 +61,23 @@
   <div class="video-area">
     <video id="video" autoplay playsinline="true"></video>
   </div>
-  <div class="button-area"><button id="take-button" onclick="take();">撮影する</button></div>
+  <div class="button-area"><button id="take-button" onclick="snapshot();">撮影する</button></div>
+  <canvas id="canvas"></canvas>
+  <script src="jimp.min.js"></script>
   <script>
-    var video;
+    let video;
     (function () {
       if (!navigator.mediaDevices) {
         alert("すみません。あなたの端末では動作しません。");
         return;
       }
       video = document.getElementById('video');
-      var constraints = {
+      let constraints = {
         audio: false,
         video: {
-          // スマホのバックカメラを使用
           facingMode: 'environment'
         }
       };
-      //  カメラの映像を取得
       navigator.mediaDevices.getUserMedia(constraints)
         .then((stream) => {
           video.srcObject = stream;
@@ -90,8 +92,25 @@
 
     }());
 
-    function take() {
+    function snapshot() {
       video.pause();
+      let canvas = document.getElementById("canvas");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      let canvasCtx = canvas.getContext('2d');
+      canvasCtx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      let dataURI = canvas.toDataURL("image/jpeg");
+
+      Jimp.read(dataURI).then(function (image) {
+        image.autocrop()
+          .getBase64(Jimp.MIME_JPEG, function (err, src) {
+            var img = document.createElement("img");
+            img.setAttribute("src", src);
+            document.body.appendChild(img);
+          });
+      }).catch(function (err) {
+        console.error(err);
+      });
     }
 
   </script>
