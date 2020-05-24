@@ -1,73 +1,44 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>Camera Test</title>
-  <style>
-  canvas, video{
-    border: 1px solid gray;
-  }
-  </style>
-</head>
-<body>
+  <head>
+    <meta charset="utf-8">
+    <title>browserCamamera sample01</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <style>
+        html {
+            height: 100%;
+        }
+        body {
+        margin: 0 auto;
+        height: 100%;
+        }
 
-<h1>HTML5カメラ</h1>
-
-<video id="camera" width="300" height="200"　playsinline muted autoplay></video>
-<canvas id="picture" width="300" height="200"></canvas>
-<form>
-  <button type="button" id="shutter">シャッター</button>
-</form>
-
-<!-- <audio id="se" preload="auto">
-  <source src="camera-shutter1.mp3" type="audio/mp3">
-</audio> -->
-
-<script>
-window.onload = () => {
-  const video  = document.querySelector("#camera");
-  const canvas = document.querySelector("#picture");
-  //const se     = document.querySelector('#se');
-
-  /** カメラ設定 */
-  const constraints = {
-    audio: false,
-    video: {
-      width: 300,
-      height: 200,
-      facingMode: "environment"   // フロントカメラを利用する
-      // facingMode: { exact: "environment" }  // リアカメラを利用する場合
-    }
-  };
-
-  /**
-   * カメラを<video>と同期
-   */
-  navigator.mediaDevices.getUserMedia(constraints)
-  .then( (stream) => {
-    video.srcObject = stream;
-  })
-  .catch( (err) => {
-    console.log(err.name + ": " + err.message);
-  });
-
-  /**
-   * シャッターボタン
-   */
-   document.querySelector("#shutter").addEventListener("click", () => {
-    const ctx = canvas.getContext("2d");
-
-    // 演出的な目的で一度映像を止めてSEを再生する
-    video.pause();  // 映像を停止
-    //se.play();      // シャッター音
-    setTimeout( () => {
-      video.play();    // 0.5秒後にカメラ再開
-    }, 500);
-
-    // canvasに画像を貼り付ける
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-  });
-};
-</script>
-</body>
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+        }
+    </style>
+  </head>
+  <body>
+    <video id="video" autoplay playsinline="true"></video>
+    <script>
+    var video = document.getElementById('video');
+    var constraints = {
+        audio: false,
+        video: {
+            // スマホのバックカメラを使用
+            facingMode: 'environment'
+        }
+    };
+    //  カメラの映像を取得
+    navigator.mediaDevices.getUserMedia(constraints)
+        .then((stream) => {
+            video.srcObject = stream;
+        })
+        .catch((err) => {
+            window.alert(err.name + ': ' + err.message);
+        });
+    </script>
+  </body>
 </html>
