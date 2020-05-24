@@ -39,7 +39,7 @@
 </head>
 
 <body>
-  <video id="video" autoplay playsinline="true" 　controls="false"></video>
+  <video id="video" autoplay playsinline="true" controls="controles"></video>
   <script>
     (function () {
       navigator.mediaDevices = navigator.mediaDevices || ((navigator.mozGetUserMedia || navigator.webkitGetUserMedia) ? {
@@ -56,6 +56,7 @@
         return;
       }
       var video = document.getElementById('video');
+      video.controles = false;
       var constraints = {
         audio: false,
         video: {
