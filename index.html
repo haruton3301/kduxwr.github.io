@@ -39,24 +39,23 @@
 </head>
 
 <body>
-  <video id="video" autoplay playsinline="true" controls="controles"></video>
+  <video id="video" autoplay playsinline="true" ></video>
   <script>
     (function () {
-      navigator.mediaDevices = navigator.mediaDevices || ((navigator.mozGetUserMedia || navigator.webkitGetUserMedia) ? {
-        getUserMedia: function (c) {
-          return new Promise(function (y, n) {
-            (navigator.mozGetUserMedia ||
-              navigator.webkitGetUserMedia).call(navigator, c, y, n);
-          });
-        }
-      } : null);
+      // navigator.mediaDevices = navigator.mediaDevices || ((navigator.mozGetUserMedia || navigator.webkitGetUserMedia) ? {
+      //   getUserMedia: function (c) {
+      //     return new Promise(function (y, n) {
+      //       (navigator.mozGetUserMedia ||
+      //         navigator.webkitGetUserMedia).call(navigator, c, y, n);
+      //     });
+      //   }
+      // } : null);
 
       if (!navigator.mediaDevices) {
         alert("すみません。あなたの端末では動作しません。");
         return;
       }
       var video = document.getElementById('video');
-      video.controles = false;
       var constraints = {
         audio: false,
         video: {
