@@ -27,9 +27,14 @@
       object-fit: fill;
     }
 
-    video::-webkit-media-controls {
+    *::-webkit-media-controls {
       display: none !important;
     }
+
+    *::-webkit-media-controls-start-playback-button {
+  display: none!important;
+  -webkit-appearance: none;
+}
 
     .button-area {
       width: 100%;
