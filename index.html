@@ -46,9 +46,6 @@ window.onload = () => {
   navigator.mediaDevices.getUserMedia(constraints)
   .then( (stream) => {
     video.srcObject = stream;
-    video.onloadedmetadata = (e) => {
-      video.play();
-    };
   })
   .catch( (err) => {
     console.log(err.name + ": " + err.message);
