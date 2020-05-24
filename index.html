@@ -1,81 +1,76 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>AR Coloring</title>
-    </head>
-    <body>
-        <h1>AR Coloring</h1>
+<head>
+  <meta charset="UTF-8">
+  <title>Camera Test</title>
+  <style>
+  canvas, video{
+    border: 1px solid gray;
+  }
+  </style>
+</head>
+<body>
 
-        <video id="player" controls autoplay></video>
-        <button id="capture">Capture</button>
-        <canvas id="snapshot" width=320 height=240></canvas>
-        <script>
-          var player = document.getElementById('player'); 
-          var snapshotCanvas = document.getElementById('snapshot');
-          var captureButton = document.getElementById('capture');
-        
-          var handleSuccess = function(stream) {
-            // Attach the video stream to the video element and autoplay.
-            player.srcObject = stream;
-          };
-        
-          captureButton.addEventListener('click', function() {
-            var context = snapshot.getContext('2d');
-            // Draw the video frame to the canvas.
-            context.drawImage(player, 0, 0, snapshotCanvas.width, 
-                snapshotCanvas.height);
-          });
-        
-          navigator.mediaDevices.getUserMedia({video: true})
-              .then(handleSuccess);
-        </script>
-    </body>
-</html> -->
+<h1>HTML5カメラ</h1>
 
-<video id="player" autoplay></video>
-<canvas id="snapshot" width="480" height="640"></canvas>
+<video id="camera" width="300" height="200"></video>
+<canvas id="picture" width="300" height="200"></canvas>
+<form>
+  <button type="button" id="shutter">シャッター</button>
+</form>
+
+<!-- <audio id="se" preload="auto">
+  <source src="camera-shutter1.mp3" type="audio/mp3">
+</audio> -->
+
 <script>
-let player = document.getElementById('player');
-let snapshotCanvas = document.getElementById('snapshot');
-let width = snapshotCanvas.width;
-let height = snapshotCanvas.height;
+window.onload = () => {
+  const video  = document.querySelector("#camera");
+  const canvas = document.querySelector("#picture");
+  //const se     = document.querySelector('#se');
 
-let startScan = function(callback) {
-  const canvasContext = snapshotCanvas.getContext("2d");
-  // 500ms間隔でスナップショットを取得し、QRコードの読み取りを行う
-  let intervalHandler = setInterval(() => {
-    canvasContext.drawImage(player, 0, 0, width, height);
-    const imageData = canvasContext.getImageData(0, 0, width, height);
-    const scanResult = jsQR(imageData.data, imageData.width, imageData.height);
-
-    if (scanResult) {
-      clearInterval(intervalHandler);
-      console.log(scanResult);
-
-      if (callback) {
-        callback(scanResult);
-      }
+  /** カメラ設定 */
+  const constraints = {
+    audio: false,
+    video: {
+      width: 300,
+      height: 200,
+      facingMode: "user"   // フロントカメラを利用する
+      // facingMode: { exact: "environment" }  // リアカメラを利用する場合
     }
-  }, 500)
-};
+  };
 
-let handleSuccess = function(stream) {
-  // カメラストリームをプレイヤーのデータに設定
-  player.srcObject = stream;
+  /**
+   * カメラを<video>と同期
+   */
+  navigator.mediaDevices.getUserMedia(constraints)
+  .then( (stream) => {
+    video.srcObject = stream;
+    video.onloadedmetadata = (e) => {
+      video.play();
+    };
+  })
+  .catch( (err) => {
+    console.log(err.name + ": " + err.message);
+  });
 
-  startScan((scanResult) => {
-    // このページの呼び出し元に読み取り結果を返す
+  /**
+   * シャッターボタン
+   */
+   document.querySelector("#shutter").addEventListener("click", () => {
+    const ctx = canvas.getContext("2d");
+
+    // 演出的な目的で一度映像を止めてSEを再生する
+    video.pause();  // 映像を停止
+    //se.play();      // シャッター音
+    setTimeout( () => {
+      video.play();    // 0.5秒後にカメラ再開
+    }, 500);
+
+    // canvasに画像を貼り付ける
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
   });
 };
-
-// このメソッドを呼び出すことでユーザーにブラウザがカメラを使用することを許可するかの確認ダイアログが表示され、
-// 許可されれば handleSuccess が呼ばれる
-navigator.mediaDevices.getUserMedia({
-  video: {facingMode: "environment", width: width, height: height},
-  audio: false
-}).then(handleSuccess)
-.catch(err => {
-  console.log(JSON.stringify(err));
-});
-
 </script>
+</body>
+</html>
