@@ -116,8 +116,8 @@
         let gray = new cv.Mat();
         cv.cvtColor(mat, gray, cv.COLOR_RGBA2GRAY, 0);
         cv.threshold(gray, gray, 200, 255, cv.THRESH_TOZERO_INV);
-        cv.bitwise_not(gray, gray);
-        cv.threshold(gray, gray, 0, 255, cv.THRESH_BINARY | cv.THRESH_OTSU);
+        // cv.bitwise_not(gray, gray);
+        // cv.threshold(gray, gray, 0, 255, cv.THRESH_BINARY | cv.THRESH_OTSU);
         cv.imshow('canvasOutput2', gray);
         let contours = new cv.MatVector();
         let hierarchy = new cv.Mat();
