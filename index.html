@@ -115,7 +115,8 @@
         let mat = cv.imread(imgElem);
         let gray = new cv.Mat();
         cv.cvtColor(mat, gray, cv.COLOR_RGBA2GRAY, 0);
-        cv.threshold(gray, gray, 200, 255, cv.THRESH_TOZERO_INV);
+        cv.adaptiveThreshold(gray, gray, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 39, 2)
+        //cv.threshold(gray, gray, 200, 255, cv.THRESH_TOZERO_INV);
         // cv.bitwise_not(gray, gray);
         // cv.threshold(gray, gray, 0, 255, cv.THRESH_BINARY | cv.THRESH_OTSU);
         cv.imshow('canvasOutput2', gray);
