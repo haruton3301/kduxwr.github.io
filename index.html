@@ -64,6 +64,7 @@
   <div class="button-area"><button id="take-button" onclick="snapshot();">撮影する</button></div>
   <canvas id="canvas"></canvas>
   <canvas id="canvasOutput"></canvas>
+  <canvas id="canvasOutput2"></canvas>
   <script async src="opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
   <script>
 
@@ -117,6 +118,7 @@
         cv.threshold(gray, gray, 200, 255, cv.THRESH_TOZERO_INV);
         cv.bitwise_not(gray, gray);
         cv.threshold(gray, gray, 0, 255, cv.THRESH_BINARY | cv.THRESH_OTSU);
+        cv.imshow('canvasOutput2', gray);
         let contours = new cv.MatVector();
         let hierarchy = new cv.Mat();
         cv.findContours(gray, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_TC89_L1);
