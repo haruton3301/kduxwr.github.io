@@ -63,8 +63,13 @@
   </div>
   <div class="button-area"><button id="take-button" onclick="snapshot();">撮影する</button></div>
   <canvas id="canvas"></canvas>
-  <script src="jimp.min.js"></script>
+  <canvas id="canvasOutput"></canvas>
+  <script async src="opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
   <script>
+
+    function onOpenCvReady() {
+      alert("opencv loaded");
+    }
     let video;
     (function () {
       if (!navigator.mediaDevices) {
@@ -100,17 +105,34 @@
       let canvasCtx = canvas.getContext('2d');
       canvasCtx.drawImage(video, 0, 0, canvas.width, canvas.height);
       let dataURI = canvas.toDataURL("image/jpeg");
-
-      Jimp.read(dataURI).then(function (image) {
-        image.autocrop()
-          .getBase64(Jimp.MIME_JPEG, function (err, src) {
-            var img = document.createElement("img");
-            img.setAttribute("src", src);
-            document.body.appendChild(img);
-          });
-      }).catch(function (err) {
-        console.error(err);
-      });
+      let imgElem = document.createElement("img");
+      imgElem.setAttribute("src", dataURI);
+      imgElem.style.display = "none";
+      document.body.appendChild(imgElem);
+      imgElem.onload = function () {
+        alert("画像が読み込まれました！");
+        let mat = cv.imread(imgElem);
+        let gray = new cv.Mat();
+        cv.cvtColor(mat, gray, cv.COLOR_RGBA2GRAY, 0);
+        cv.threshold(gray, gray, 200, 255, cv.THRESH_TOZERO_INV);
+        cv.bitwise_not(gray, gray);
+        cv.threshold(gray, gray, 0, 255, cv.THRESH_BINARY | cv.THRESH_OTSU);
+        let contours = new cv.MatVector();
+        let hierarchy = new cv.Mat();
+        cv.findContours(gray, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_TC89_L1);
+        let max_level = 0;
+        for (let i = 0; i < contours.size(); i++) {
+          var cnt = contours.get(i);
+          var area = cv.contourArea(cnt, false);
+          let color = new cv.Scalar(255, 0, 0);
+          cv.drawContours(mat, contours, i, color);
+        }
+        contours.delete();
+        hierarchy.delete();
+        cv.imshow('canvasOutput', mat);
+        mat.delete();
+        gray.delete();
+      };
     }
 
   </script>
