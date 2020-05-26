@@ -139,10 +139,10 @@
             let approx = new cv.MatVector();
             cv.approxPolyDP(cv.Mat(contours[i]), approx, 0.01 * cv.arcLength(contours[i], true), true);
             // 矩形のみ取得
-            if (approx.length == 4) {
+            //if (approx.length == 4) {
               let color = new cv.Scalar(255, 0, 0);
               cv.drawContours(mat, contours, i, color);
-            }
+            //}
           }
         }
         contours.delete();
