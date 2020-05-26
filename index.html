@@ -122,13 +122,28 @@
         cv.imshow('canvasOutput2', gray);
         let contours = new cv.MatVector();
         let hierarchy = new cv.Mat();
-        cv.findContours(gray, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_TC89_L1);
+        cv.findContours(gray, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
+        // let max_level = 0;
+        // for (let i = 0; i < contours.size(); i++) {
+        //   var cnt = contours.get(i);
+        //   var area = cv.contourArea(cnt, false);
+        //   let color = new cv.Scalar(255, 0, 0);
+        //   cv.drawContours(mat, contours, i, color);
+        // }
         let max_level = 0;
-        for (let i = 0; i < contours.size(); i++) {
-          var cnt = contours.get(i);
-          var area = cv.contourArea(cnt, false);
-          let color = new cv.Scalar(255, 0, 0);
-          cv.drawContours(mat, contours, i, color);
+        for (let i = 0; i < contours.length; i++) {
+          // ある程度の面積が有るものだけに絞る
+          let a = cv.contourArea(contours[i], false);
+          if (a > 15000) {
+            //輪郭を直線近似する
+            let approx = new cv.MatVector();
+            cv.approxPolyDP(cv.Mat(contours[i]), approx, 0.01 * cv.arcLength(contours[i], true), true);
+            // 矩形のみ取得
+            if (approx.length == 4) {
+              let color = new cv.Scalar(255, 0, 0);
+              cv.drawContours(mat, contours, i, color);
+            }
+          }
         }
         contours.delete();
         hierarchy.delete();
