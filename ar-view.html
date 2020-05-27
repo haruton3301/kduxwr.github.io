@@ -6,15 +6,15 @@
 </head>
 
 <body>
-    <script>
+    <!-- <script>
         let imgElem = document.createElement("img");
         imgElem.setAttribute("src", sessionStorage.textureImage);
         document.body.appendChild(imgElem);
         imgElem.onload = function () {
 
         }
-    </script>
-    <!-- <script>
+    </script> -->
+    <script>
         AFRAME.registerComponent('modify-materials', {
             init: function () {
                 // Wait for model to load.
@@ -24,7 +24,7 @@
                     // Go over the submeshes and modify materials we want.
                     obj.traverse(node => {
                         if (node.name.indexOf('Cube') !== -1) {
-                            node.material.map = new THREE.TextureLoader().load( "cube2.jpg" );
+                            node.material.map = new THREE.TextureLoader().load( sessionStorage.textureImage);
                         }
                     });
                 });
@@ -36,7 +36,7 @@
             <a-asset-item id="cityModel" src="untitled.gltf"></a-asset-item>
         </a-assets>
         <a-entity gltf-model="#cityModel" modify-materials></a-entity>
-    </a-scene> -->
+    </a-scene>
 </body>
 
 </html>
