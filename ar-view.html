@@ -25,7 +25,7 @@
                     // Go over the submeshes and modify materials we want.
                     obj.traverse(node => {
                         if (node.name.indexOf('Cube') !== -1) {
-                            node.material.map = new THREE.TextureLoader().load( sessionStorage.textureImage);
+                            node.material.map = new THREE.TextureLoader().load(sessionStorage.textureImage);
                         }
                     });
                 });
@@ -33,13 +33,14 @@
         });
     </script>
     <a-scene embedded arjs="debugUIEnabled:false;">
+        <a-assets>
+            <a-asset-item id="cityModel" src="untitled.gltf"></a-asset-item>
+        </a-assets>
         <a-marker preset="hiro">
-            <a-assets>
-                <a-asset-item id="cityModel" src="untitled.gltf"></a-asset-item>
-            </a-assets>
-            <a-entity  position="0 0.5 0" gltf-model="#cityModel" modify-materials></a-entity>
-          </a-marker>
-       
+
+            <a-entity position="0 0.5 0" gltf-model="#cityModel" modify-materials></a-entity>
+        </a-marker>
+
         <a-entity camera></a-entity>
     </a-scene>
 </body>
