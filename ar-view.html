@@ -16,7 +16,7 @@
                     // Go over the submeshes and modify materials we want.
                     obj.traverse(node => {
                         if (node.name.indexOf('Cube') !== -1) {
-                            node.material.color.set('blue');
+                            node.material.map = new THREE.TextureLoader().load( "cube2.jpg" );
                         }
                     });
                 });
