@@ -54,6 +54,10 @@
       background-color: white;
       font-size: 240%;
     }
+
+    canvas {
+      display: none;
+    }
   </style>
 </head>
 
@@ -64,7 +68,6 @@
   <div class="button-area"><button id="take-button" onclick="snapshot();">撮影する</button></div>
   <canvas id="canvas"></canvas>
   <canvas id="canvasOutput"></canvas>
-  <canvas id="canvasOutput2"></canvas>
   <script async src="opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
   <script>
 
@@ -111,7 +114,6 @@
       imgElem.style.display = "none";
       document.body.appendChild(imgElem);
       imgElem.onload = function () {
-        alert("画像が読み込まれました！");
         let mat = cv.imread(imgElem);
         let gray = new cv.Mat();
         cv.cvtColor(mat, gray, cv.COLOR_RGBA2GRAY, 0);
@@ -119,17 +121,12 @@
         //cv.threshold(gray, gray, 200, 255, cv.THRESH_TOZERO_INV);
         cv.bitwise_not(gray, gray);
         cv.threshold(gray, gray, 0, 255, cv.THRESH_BINARY | cv.THRESH_OTSU);
-        cv.imshow('canvasOutput2', gray);
+        //cv.imshow('canvasOutput2', gray);
         let contours = new cv.MatVector();
         let hierarchy = new cv.Mat();
         cv.findContours(gray, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
-        // let max_level = 0;
-        // for (let i = 0; i < contours.size(); i++) {
-        //   var cnt = contours.get(i);
-        //   var area = cv.contourArea(cnt, false);
-        //   let color = new cv.Scalar(255, 0, 0);
-        //   cv.drawContours(mat, contours, i, color);
-        // }
+
+
         let maxArea = 0;
         let foundContour = null;
         for (let i = 0; i < contours.size(); i++) {
@@ -180,17 +177,23 @@
           let srcCoords = cv.matFromArray(4, 1, cv.CV_32FC2, [tl.corner.x, tl.corner.y, tr.corner.x, tr.corner.y, br.corner.x, br.corner.y, bl.corner.x, bl.corner.y]);
           let dsize = new cv.Size(theWidth, theHeight);
           let M = cv.getPerspectiveTransform(srcCoords, finalDestCoords)
-          let finalDest = new cv.Mat();
+          var finalDest = new cv.Mat();
           cv.warpPerspective(mat, finalDest, M, dsize, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
-          cv.imshow('canvasOutput2', finalDest);
+          cv.imshow('canvasOutput', finalDest);
+
+          canvasOutput = document.getElementById("canvasOutput");
+          let dataURI = canvasOutput.toDataURL("image/png");
+          let imgElem = document.createElement("img");
+          imgElem.setAttribute("src", dataURI);
+          document.body.appendChild(imgElem);
 
         }
 
-        cv.imshow('canvasOutput', mat);
         contours.delete();
         hierarchy.delete();
         approx.delete();
         mat.delete();
+        finalDest.delete();
         gray.delete();
       }
     }
