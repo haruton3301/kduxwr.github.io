@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="aframe.min.js"></script>
+</head>
+
+<body>
+    <a-assets>
+        <a-asset-item id="crate-obj" src="untitled.obj"></a-asset-item>
+        <a-asset-item id="crate-mtl" src="untitled.mtl"></a-asset-item>
+    </a-assets>
+    <a-scene>
+        <a-obj-model position="0 0.5 -5" src="#crate-obj" mtl="#crate-mtl"></a-obj-model>
+        <a-sky color="#ECECEC"></a-sky>
+    </a-scene>
+</body>
+
+</html>
