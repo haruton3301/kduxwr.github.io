@@ -183,12 +183,14 @@
 
           canvasOutput = document.getElementById("canvasOutput");
           let dataURI = canvasOutput.toDataURL("image/png");
-          let imgElem = document.createElement("img");
-          imgElem.setAttribute("src", dataURI);
-          document.body.appendChild(imgElem);
-          imgElem.onload = function () {
+          sessionStorage.textureImage = dataURI;
+          window.location.href = 'ar-view.html';
+          // let imgElem = document.createElement("img");
+          // imgElem.setAttribute("src", dataURI);
+          // document.body.appendChild(imgElem);
+          // imgElem.onload = function () {
            
-          }
+          // }
         }
 
         contours.delete();
