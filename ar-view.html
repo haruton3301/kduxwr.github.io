@@ -7,15 +7,17 @@
 </head>
 
 <body>
-    <script>
+    <!-- <script>
         let imgElem = document.createElement("img");
         imgElem.setAttribute("src", sessionStorage.textureImage);
         document.body.appendChild(imgElem);
         imgElem.onload = function () {
 
         }
-    </script>
-    <!-- <script>
+    </script> -->
+    <script>
+        var tex = new THREE.TextureLoader().load(sessionStorage.textureImage);
+        tex.flipY = false; // for glTF models.
         AFRAME.registerComponent('modify-materials', {
             init: function () {
                 // Wait for model to load.
@@ -25,7 +27,7 @@
                     // Go over the submeshes and modify materials we want.
                     obj.traverse(node => {
                         if (node.name.indexOf('Cube') !== -1) {
-                            node.material.map = new THREE.TextureLoader().load(sessionStorage.textureImage);
+                            node.material.map = tex
                         }
                     });
                 });
@@ -42,7 +44,7 @@
         </a-marker>
 
         <a-entity camera></a-entity>
-    </a-scene> -->
+    </a-scene>
 </body>
 
 </html>
