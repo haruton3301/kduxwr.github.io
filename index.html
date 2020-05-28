@@ -167,10 +167,10 @@
           //Calculate the max width/height
           let widthBottom = Math.hypot(br.corner.x - bl.corner.x, br.corner.y - bl.corner.y);
           let widthTop = Math.hypot(tr.corner.x - tl.corner.x, tr.corner.y - tl.corner.y);
-          let theWidth = 343;//(widthBottom > widthTop) ? widthBottom : widthTop;
+          let theWidth = (widthBottom > widthTop) ? widthBottom : widthTop;
           let heightRight = Math.hypot(tr.corner.x - br.corner.x, tr.corner.y - br.corner.y);
           let heightLeft = Math.hypot(tl.corner.x - bl.corner.x, tr.corner.y - bl.corner.y);
-          let theHeight = 257;//(heightRight > heightLeft) ? heightRight : heightLeft;
+          let theHeight = (heightRight > heightLeft) ? heightRight : heightLeft;
 
           //Transform!
           let finalDestCoords = cv.matFromArray(4, 1, cv.CV_32FC2, [0, 0, theWidth - 1, 0, theWidth - 1, theHeight - 1, 0, theHeight - 1]); //
