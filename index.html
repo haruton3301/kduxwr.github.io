@@ -58,10 +58,19 @@
     canvas {
       display: none;
     }
+
+    #loading {
+      position: fixed;
+      z-index: 10000;
+      background-color: skyblue;
+      width: 100%;
+      height: 100%;
+    }
   </style>
 </head>
 
 <body>
+  <div id="loading"></div>
   <div class="video-area">
     <video id="video" autoplay playsinline="true"></video>
   </div>
@@ -72,8 +81,10 @@
   <script>
 
     function onOpenCvReady() {
-      alert("opencv loaded");
+      //alert("opencv loaded");
+      document.getElementById("loading").style.display ="none";
     }
+
     let video;
     (function () {
       if (!navigator.mediaDevices) {
