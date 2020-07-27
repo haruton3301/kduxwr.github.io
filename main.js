@@ -63,7 +63,7 @@ function snapshot() {
 
     mycv.endProcess(); //終了処理
 
-    //window.location.href = 'ar-view.html'; //ページを遷移
+    window.location.href = 'ar-view.html'; //ページを遷移
 
   }
 }
