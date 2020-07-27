@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>AR Coloring</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+  <style>
+    html {
+      height: 100%;
+    }
+
+    body {
+      margin: 0 auto;
+      height: 100%;
+    }
+
+    .video-area {
+      position: relative;
+      width: 100%;
+      height: 84%;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+    }
+
+    *::-webkit-media-controls-panel {
+      display: none !important;
+      -webkit-appearance: none;
+    }
+
+    *::--webkit-media-controls-play-button {
+      display: none !important;
+      -webkit-appearance: none;
+    }
+
+    *::-webkit-media-controls-start-playback-button {
+      display: none !important;
+      -webkit-appearance: none;
+    }
+
+    .button-area {
+      width: 100%;
+      height: 16%;
+      background-color: black;
+    }
+
+    .button-area button {
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      font-size: 240%;
+    }
+
+    canvas {
+      display: none;
+    }
+
+    #loading {
+      position: fixed;
+      z-index: 10000;
+      background-color: skyblue;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="loading"></div>
+  <div class="video-area">
+    <video id="video" autoplay playsinline="true"></video>
+  </div>
+  <div class="button-area"><button id="take-button" onclick="snapshot();">撮影する</button></div>
+  <canvas id="canvas"></canvas>
+  <canvas id="canvasOutput"></canvas>
+  <script async src="opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
+  <script>
+
+    function onOpenCvReady() {
+      //alert("opencv loaded");
+      document.getElementById("loading").style.display ="none";
+    }
+
+    let video;
+    (function () {
+      if (!navigator.mediaDevices) {
+        alert("すみません。あなたの端末では動作しません。");
+        return;
+      }
+      video = document.getElementById('video');
+      let constraints = {
+        audio: false,
+        video: {
+          facingMode: 'environment'
+        }
+      };
+      navigator.mediaDevices.getUserMedia(constraints)
+        .then((stream) => {
+          video.srcObject = stream;
+          video.onloadedmetadata = function (e) {
+            video.play();
+          };
+        })
+        .catch((err) => {
+          window.alert(err.name + ': ' + err.message);
+        });
+    }());
+
+    function snapshot() {
+      video.pause();
+      let canvas = document.getElementById("canvas");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      let canvasCtx = canvas.getContext('2d');
+      canvasCtx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      let dataURI = canvas.toDataURL("image/jpeg");
+      let imgElem = document.createElement("img");
+      imgElem.setAttribute("src", dataURI);
+      imgElem.style.display = "none";
+      document.body.appendChild(imgElem);
+      imgElem.onload = function () {
+        let mat = cv.imread(imgElem);
+        let gray = new cv.Mat();
+        cv.cvtColor(mat, gray, cv.COLOR_RGBA2GRAY, 0);
+        cv.adaptiveThreshold(gray, gray, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 39, 2)
+        cv.bitwise_not(gray, gray);
+        cv.threshold(gray, gray, 0, 255, cv.THRESH_BINARY | cv.THRESH_OTSU);
+        
+        let contours = new cv.MatVector();
+        let hierarchy = new cv.Mat();
+        cv.findContours(gray, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
+
+
+        let maxArea = 0;
+        let foundContour = null;
+        for (let i = 0; i < contours.size(); i++) {
+          // ある程度の面積が有るものだけに絞る
+          var cnt = contours.get(i);
+          var a = cv.contourArea(cnt, false);
+
+          //輪郭を直線近似する
+          var approx = new cv.Mat();
+          cv.approxPolyDP(cnt, approx, 0.01 * cv.arcLength(cnt, true), true);
+          //console.log(approx.size());
+          // 矩形のみ取得
+          if (approx.size().height == 4 && a > maxArea) {
+            maxArea = a;
+            foundContour = approx;
+            var color = new cv.Scalar(255, 0, 0);
+            cv.drawContours(mat, contours, i, color);
+          }
+        }
+
+        if (foundContour != null) {
+
+          let corner1 = new cv.Point(foundContour.data32S[0], foundContour.data32S[1]);
+          let corner2 = new cv.Point(foundContour.data32S[2], foundContour.data32S[3]);
+          let corner3 = new cv.Point(foundContour.data32S[4], foundContour.data32S[5]);
+          let corner4 = new cv.Point(foundContour.data32S[6], foundContour.data32S[7]);
+
+          let cornerArray = [{ corner: corner1 }, { corner: corner2 }, { corner: corner3 }, { corner: corner4 }];
+          //Sort by Y position (to get top-down)
+          cornerArray.sort((item1, item2) => { return (item1.corner.y < item2.corner.y) ? -1 : (item1.corner.y > item2.corner.y) ? 1 : 0; }).slice(0, 5);
+
+          //Determine left/right based on x position of top and bottom 2
+          let tl = cornerArray[0].corner.x < cornerArray[1].corner.x ? cornerArray[0] : cornerArray[1];
+          let tr = cornerArray[0].corner.x > cornerArray[1].corner.x ? cornerArray[0] : cornerArray[1];
+          let bl = cornerArray[2].corner.x < cornerArray[3].corner.x ? cornerArray[2] : cornerArray[3];
+          let br = cornerArray[2].corner.x > cornerArray[3].corner.x ? cornerArray[2] : cornerArray[3];
+
+          //Calculate the max width/height
+          let widthBottom = Math.hypot(br.corner.x - bl.corner.x, br.corner.y - bl.corner.y);
+          let widthTop = Math.hypot(tr.corner.x - tl.corner.x, tr.corner.y - tl.corner.y);
+          let theWidth = (widthBottom > widthTop) ? widthBottom : widthTop;
+          let heightRight = Math.hypot(tr.corner.x - br.corner.x, tr.corner.y - br.corner.y);
+          let heightLeft = Math.hypot(tl.corner.x - bl.corner.x, tr.corner.y - bl.corner.y);
+          let theHeight = (heightRight > heightLeft) ? heightRight : heightLeft;
+
+          //Transform!
+          let finalDestCoords = cv.matFromArray(4, 1, cv.CV_32FC2, [0, 0, theWidth - 1, 0, theWidth - 1, theHeight - 1, 0, theHeight - 1]); //
+          let srcCoords = cv.matFromArray(4, 1, cv.CV_32FC2, [tl.corner.x, tl.corner.y, tr.corner.x, tr.corner.y, br.corner.x, br.corner.y, bl.corner.x, bl.corner.y]);
+          let dsize = new cv.Size(theWidth, theHeight);
+          let M = cv.getPerspectiveTransform(srcCoords, finalDestCoords)
+          var finalDest = new cv.Mat();
+          cv.warpPerspective(mat, finalDest, M, dsize, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
+          cv.imshow('canvasOutput', finalDest);
+
+          canvasOutput = document.getElementById("canvasOutput");
+          let dataURI = canvasOutput.toDataURL("image/png");
+          sessionStorage.textureImage = dataURI;
+          window.location.href = 'ar-view.html';
+          // let imgElem = document.createElement("img");
+          // imgElem.setAttribute("src", dataURI);
+          // document.body.appendChild(imgElem);
+          // imgElem.onload = function () {
+           
+          // }
+        }
+
+        contours.delete();
+        hierarchy.delete();
+        approx.delete();
+        mat.delete();
+        finalDest.delete();
+        gray.delete();
+      }
+    }
+
+  </script>
+</body>
+
+</html>
