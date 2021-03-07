@@ -60,7 +60,8 @@ main.top {
   font-size: 30px;
   font-weight: bold;
   color: #FF8C00;
-  background: -webkit-linear-gradient(0deg, #40E0D0, #FF8C00, #FF0080);
+  background: linear-gradient(to right, #40E0D0, #FF8C00 40%, #FF0080);
+  background: -webkit-linear-gradient(to right, #40E0D0, #FF8C00 40%, #FF0080);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
