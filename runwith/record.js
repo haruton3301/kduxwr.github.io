@@ -46,6 +46,8 @@ function gpsIntervalFunc() {
     totalDistance += d;
     console.log(totalDistance);
     $('.distance').text(totalDistance.toFixed(2) + 'KM');
+    $('.lat').text(latlng.lat);
+    $('.lng').text(latlng.lng);
 }
 
 var countupInterval;
