@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Run With</title>
+</head>
+<body>
+  <header>
+    <h1>Run With</h1>
+  </header>
+  <main>
+    <div class="start"><p>ワークアウトを開始します</p><img src="img/run_start.jpg"></div>
+    <div class="countdown"></div>
+    <div class="info">
+        <div class="countup"></div>
+        <div class="speed"></div>
+        <div class="distance"></div>
+    </div>
+    <div class="control">
+        <button class="start-button">開始</button>
+        <button class="pause-button">停止</button>
+        <button class="restart-button">再開</button>
+        <button class="end-button">終了</button>
+    </div>
+    <div class="map"></div>
+  </main>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src='https://www.bing.com/api/maps/mapcontrol?mkt=ja-jp&key=AkKAP2GRI4-HJCwtMRR6KPTEIcdjZ7bmoKWJUn_J1ZHmt6rBFrGPYe3obFgiwims'></script>
+  <script src="record.js"></script>
+</body>
+</html>
