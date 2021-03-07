@@ -64,7 +64,7 @@ main.top {
   background: -webkit-linear-gradient(to right, #40E0D0, #FF8C00 40%, #FF0080);
   background-clip: text;
   -webkit-background-clip: text;
-  //-webkit-text-fill-color: rgba(255,,0,0);
+  -webkit-text-fill-color: rgba(128,128,128,0);
 }
 .login-button {
   width: 216px;
