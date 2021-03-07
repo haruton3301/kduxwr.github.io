@@ -21,12 +21,14 @@ function countupIntervalFunc() {
 
 var gpsHist = [];
 var latlng;
+var speed;
 var totalDistance = 0;
 
 function getGps(position) {
     const lat = position.coords.latitude;
     const lng = position.coords.longitude;
     latlng = {lat: lat, lng: lng};
+    speed = position.coords.speed;
 }
 
 function distance(lat1, lng1, lat2, lng2) {
@@ -48,6 +50,12 @@ function gpsIntervalFunc() {
     $('.distance').text(totalDistance.toFixed(2) + 'KM');
     $('.lat').text(latlng.lat);
     $('.lng').text(latlng.lng);
+    if(speed == null) {
+        $('.speed').text('null');
+    } else {
+        $('.speed').text(speed);
+    }
+    
 }
 
 var countupInterval;
