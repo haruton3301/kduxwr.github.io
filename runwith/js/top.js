@@ -22,7 +22,7 @@ $('.login-button').on('click', function() {
         // ログインしたユーザーの情報を取得します。
         const user = result.user;
 
-        window.location.href = "/home.html";
+        window.location.href = "./home.html";
     }).catch(function(err) {
         console.error(err);
         // エラー処理
