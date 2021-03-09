@@ -14,7 +14,9 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 firebase.auth().onAuthStateChanged(user => {
-    if (!user) {
+    if (user) {
+        console.log('logged in');
+    } else {
         window.location.href = "./index.html";
     } 
   });
