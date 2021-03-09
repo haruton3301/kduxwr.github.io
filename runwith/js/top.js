@@ -21,10 +21,16 @@ $('.login-button').on('click', function() {
         const token = result.credential.accessToken;
         // ログインしたユーザーの情報を取得します。
         const user = result.user;
-
-        window.location.href = "./home.html";
     }).catch(function(err) {
         console.error(err);
         // エラー処理
     });
+});
+
+firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+        window.location.href = "./home.html";
+    } else {
+        console.log('not logged in');
+    } 
 });
