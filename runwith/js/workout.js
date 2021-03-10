@@ -173,6 +173,7 @@ $('.end-button').on('click', function() {
     }
 
     console.log(coords);
+    console.log(gpsHist);
 
     //Create a polyline
     var line = new Microsoft.Maps.Polyline(coords, {
