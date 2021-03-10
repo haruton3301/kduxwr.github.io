@@ -213,12 +213,12 @@ footer.top p {
     height: 320px;
 }
 
-.countup {
+.info .countup {
     font-size: 72px;
     color: white;
 }
 
-.distance {
+.info .distance {
     padding: 0 8px;
     font-size: 40px;
     color: yellow;
@@ -239,5 +239,25 @@ footer.top p {
 .workresult .map {
   height: 240px;
   margin: 16px 5%;
+}
+
+.workresult .record {
+  color: white;
+  padding-top: 8px;
+}
+
+.workresult .record p{
+  margin: 8px 24px;
+}
+
+.workresult .record p span:nth-child(1) {
+  font-size: 16px;
+  padding-right: 24px;
+  line-height: 32px;
+}
+
+.workresult .record p span:nth-child(2) {
+  font-size: 32px;
+  line-height: 32px;
 }
 

@@ -9,6 +9,17 @@ $('.workresult').hide();
 let countdownVal = 3;
 let countupVal = 0;
 
+function sec2str(second) {
+    let min = Math.floor(second / 60);
+    let sec = Math.floor(second % 60);
+    let hour = Math.floor(min / 60);
+    min = Math.floor(min % 60);
+    let phour = ( '00' + hour ).slice( -2 );
+    let pmin = ( '00' + min ).slice( -2 );
+    let psec = ( '00' + sec ).slice( -2 );
+    return (phour + ':' + pmin + ':' + psec);
+}
+
 function countupIntervalFunc() {
     countupVal++;
     let min = Math.floor(countupVal / 60);
@@ -70,8 +81,6 @@ var gpsInterval;
 $('.start-button').on('click', function() {
     $('.start').hide();
     $('.start-button').hide();
-    $('.pause-button').show();
-    $('.end-button').show();
     $('.countdown').show();
     $('.countdown').text(countdownVal);
     var countdownInterval = setInterval(function() {
@@ -79,16 +88,11 @@ $('.start-button').on('click', function() {
         $('.countdown').text(countdownVal);
         if(countdownVal == 0) {
             clearInterval(countdownInterval);
+            $('.pause-button').show();
+            $('.end-button').show();
             $('.countdown').hide();
             $('.info').show();
-            let min = Math.floor(countupVal / 60);
-            let sec = Math.floor(countupVal % 60);
-            let hour = Math.floor(min / 60);
-            min = Math.floor(min % 60);
-            let phour = ( '00' + hour ).slice( -2 );
-            let pmin = ( '00' + min ).slice( -2 );
-            let psec = ( '00' + sec ).slice( -2 );
-            $('.countup').text(phour + ':' + pmin + ':' + psec);
+            $('.countup').text(sec2str(countupVal));
             $('.distance').text(totalDistance.toFixed(2) + 'KM');
             countupInterval = setInterval(countupIntervalFunc, 1000);
             gpsInterval = setInterval(gpsIntervalFunc, 1000);
@@ -156,6 +160,29 @@ $('.end-button').on('click', function() {
     });
     // pushPin(lat, lng, map);
     // generateInfobox(lat, lng, map);
+
+    //線
+    var locations = [];
+    for(let i = 0; i < gpsHist.length; i++) {
+        locations.push(new Microsoft.Maps.Location(gpsHist[i].lat, gpsHist[i].lng));
+    }
+    var line = new Microsoft.Maps.Polyline(locations,{
+    strokeColor:new Microsoft.Maps.Color(0xff, 0, 0, 0x99),
+    strokeThickness:2
+    });
+    map.entities.push(line);
+
+    $('.record .distance').text(totalDistance.toFixed(2) + 'KM');
+    $('.record .time').text(sec2str(countupVal));
+
+    let aveTime = Math.floor(countupVal / totalDistance);
+
+    let min = Math.floor(aveTime / 60);
+    let sec = Math.floor(aveTime % 60);
+    let pmin = ( '00' + min ).slice( -2 );
+    let psec = ( '00' + sec ).slice( -2 );
+    $('.record .speed').text(pmin + '分' + psec + '秒 / キロ');
+
 });
 
 function generateInfobox(lat, lng, now) {
