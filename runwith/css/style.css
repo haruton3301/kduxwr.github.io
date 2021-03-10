@@ -17,6 +17,7 @@ nav {
   position: fixed;
   left: 0;
   bottom: 0;
+  background: #333;
   border-top: 1px solid #999;
 }
 

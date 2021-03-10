@@ -163,13 +163,23 @@ $('.end-button').on('click', function() {
 
     //線
     var locations = [];
+    
+
+    //Create array of locations
+    var coords = [center, new Microsoft.Maps.Location(center.latitude + 1, center.longitude + 1)];
     for(let i = 0; i < gpsHist.length; i++) {
-        locations.push(new Microsoft.Maps.Location(gpsHist[i].lat, gpsHist[i].lng));
+        let location = new Microsoft.Maps.Location(gpsHist[i].lat, gpsHist[i].lng);
+        coords.push(location);
     }
-    var line = new Microsoft.Maps.Polyline(locations,{
-    strokeColor:new Microsoft.Maps.Color(0xff, 0, 0, 0x99),
-    strokeThickness:2
+
+    //Create a polyline
+    var line = new Microsoft.Maps.Polyline(coords, {
+        strokeColor: 'red',
+        strokeThickness: 3,
+        strokeDashArray: [4, 4]
     });
+
+    //Add the polyline to map
     map.entities.push(line);
 
     $('.record .distance').text(totalDistance.toFixed(2) + 'KM');
