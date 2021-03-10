@@ -172,6 +172,8 @@ $('.end-button').on('click', function() {
         coords.push(location);
     }
 
+    console.log(coords);
+
     //Create a polyline
     var line = new Microsoft.Maps.Polyline(coords, {
         strokeColor: 'red',
