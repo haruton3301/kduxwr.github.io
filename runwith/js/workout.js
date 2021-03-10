@@ -56,6 +56,7 @@ function gpsIntervalFunc() {
     if(0 < gpsHist.length) {
         let prev = gpsHist.slice(-1)[0];
         let d = distance(latlng.lat, latlng.lng, prev.lat, prev.lng);
+        gpsHist.push(latlng);
 
         if(!Number.isNaN(d)) {
             
