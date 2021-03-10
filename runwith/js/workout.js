@@ -167,7 +167,7 @@ $('.end-button').on('click', function() {
     
     var center = map.getCenter();
     //Create array of locations
-    var coords = [center, new Microsoft.Maps.Location(center.latitude + 1, center.longitude + 1)];
+    var coords = [];
     for(let i = 0; i < gpsHist.length; i++) {
         let location = new Microsoft.Maps.Location(gpsHist[i].lat, gpsHist[i].lng);
         coords.push(location);
@@ -180,7 +180,7 @@ $('.end-button').on('click', function() {
     var line = new Microsoft.Maps.Polyline(coords, {
         strokeColor: 'red',
         strokeThickness: 3,
-        strokeDashArray: [4, 4]
+        //strokeDashArray: [4, 4]
     });
 
     //Add the polyline to map
