@@ -4,52 +4,54 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/earlyaccess/notosansjp.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" integrity="sha256-UzFD2WYH2U1dQpKDjjZK72VtPeWP50NoJjd26rnAdUI=" crossorigin="anonymous" />
     <link rel="stylesheet" href="css/style.css">
     <title>Run With</title>
 </head>
 <body>
+  <nav>
+    <ul>
+        <li><a href="./home.html"><div><i class="fas fa-home"></i>ホーム</div></a></li>
+        <li class="now"><a href="./workout.html"><div><i class="fas fa-running"></i>走る</div></a></li>
+        <li><a href="./frend.html"><div><i class="fas fa-user-friends"></i>友達</div></a></li>
+        <li><a href="./search.html"><div><i class="fas fa-search-plus"></i>探す</div></a></li>
+    </ul>
+</nav>
+</nav>
   <header>
     <h1>Run With</h1>
   </header>
   <main>
-    <div class="start"><p>ワークアウトを開始します</p><img src="img/run_start.jpg"></div>
-    <div class="countdown"></div>
-    <div class="info">
-        <div class="countup"></div>
-        <div class="distance"></div>
-        <div class="lat"></div>
-        <div class="lng"></div>
-        <div class="speed"></div>
+    <div class="workout">
+      <div class="start"><p>ワークアウトを開始します</p><img src="img/run_start.jpg"></div>
+      <div class="countdown"></div>
+      <div class="info">
+          <div class="countup"></div>
+          <div class="distance"></div>
+          <div class="lat"></div>
+          <div class="lng"></div>
+          <div class="speed"></div>
+      </div>
+      <div class="control">
+          <button class="start-button">開始</button>
+          <button class="pause-button">停止</button>
+          <button class="restart-button">再開</button>
+          <button class="end-button">終了</button>
+      </div>
     </div>
-    <div class="control">
-        <button class="start-button">開始</button>
-        <button class="pause-button">停止</button>
-        <button class="restart-button">再開</button>
-        <button class="end-button">終了</button>
+    <div class="workresult">
+      <div class="msg">お疲れさまでした</div>
+      <div class="map"></div>
     </div>
-    <div class="map"></div>
+    
   </main>
   <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-analytics.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-auth.js"></script>
-  <script>
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    var firebaseConfig = {
-      apiKey: "AIzaSyCr9eiIN966ucGKJfw4rdo_RncpFvCfbdU",
-      authDomain: "runwith-9be83.firebaseapp.com",
-      projectId: "runwith-9be83",
-      storageBucket: "runwith-9be83.appspot.com",
-      messagingSenderId: "683736651114",
-      appId: "1:683736651114:web:ef9bf56c84355609b78113",
-      measurementId: "G-X1NCY7LC7S"
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
-  </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src='https://www.bing.com/api/maps/mapcontrol?mkt=ja-jp&key=AkKAP2GRI4-HJCwtMRR6KPTEIcdjZ7bmoKWJUn_J1ZHmt6rBFrGPYe3obFgiwims'></script>
+  <!-- <script src="js/loginCheck.js"></script> -->
   <script src="js/workout.js"></script>
+  
 </body>
 </html>

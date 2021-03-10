@@ -4,6 +4,8 @@ $('.end-button').hide();
 $('.countdown').hide();
 $('.info').hide();
 
+$('.workresult').hide();
+
 let countdownVal = 3;
 let countupVal = 0;
 
@@ -40,22 +42,26 @@ function distance(lat1, lng1, lat2, lng2) {
 }
 
 function gpsIntervalFunc() {
-    let prev = gpsHist.slice(-1)[0];
-    console.log(prev)
-    gpsHist.push(latlng);
-    console.log(gpsHist);
-    let d = distance(latlng.lat, latlng.lng, prev.lat, prev.lng);
-    totalDistance += d;
-    console.log(totalDistance);
-    $('.distance').text(totalDistance.toFixed(2) + 'KM');
-    $('.lat').text(latlng.lat);
-    $('.lng').text(latlng.lng);
-    if(speed == null) {
-        $('.speed').text('null');
+    if(0 < gpsHist.length) {
+        let prev = gpsHist.slice(-1)[0];
+        let d = distance(latlng.lat, latlng.lng, prev.lat, prev.lng);
+
+        if(!Number.isNaN(d)) {
+            
+            totalDistance += d;
+            console.log(totalDistance);
+            $('.distance').text(totalDistance.toFixed(2) + 'KM');
+            $('.lat').text(latlng.lat);
+            $('.lng').text(latlng.lng);
+            if(speed == null) {
+                $('.speed').text('null');
+            } else {
+                $('.speed').text(speed);
+            }
+        }
     } else {
-        $('.speed').text(speed);
-    }
-    
+        gpsHist.push(latlng);
+    }   
 }
 
 var countupInterval;
@@ -121,49 +127,50 @@ function showError(error) {
     alert('error:' + e);
 }
 
+var watchId;
+var map;
 window.onload = function () {
-    navigator.geolocation.watchPosition(getGps, showError ,option);
+    watchId = navigator.geolocation.watchPosition(getGps, showError ,option);
 }
 
+$('.end-button').on('click', function() {
+    console.log('end');
+    clearInterval(gpsInterval);
+    clearInterval(countupInterval);
+    navigator.geolocation.clearWatch(watchId);
 
+    $('.workout').hide();
+    $('.workresult').show();
 
-// let map;
-// const option = {
-//     enableHighAccuracy: true,
-//     maximumAge: 20000,
-//     timeout: 1000000,
-// };
-// function mapsInit(position) {
-//     console.log(position)
-//     const lat = position.coords.latitude;
-//     const lng = position.coords.longitude;
-//     map = new Microsoft.Maps.Map('#map', {
-//     center: {
-//         latitude: lat, longitude: lng,
-//     },
-//     zoom: 15,
-//     });
-//     pushPin(lat, lng, map);
-//     generateInfobox(lat, lng, map);
-// }
-// function generateInfobox(lat, lng, now) {
-//     const location = new Microsoft.Maps.Location(lat, lng);
-//     const infobox = new Microsoft.Maps.Infobox(location, {
-//         title: 'イマココ',
-//         description: "I'm here!!!",
-//     });
-//     infobox.setMap(now);
-// }
-// function pushPin(lat, lng, now) {
-//     const location = new Microsoft.Maps.Location(lat, lng);
-//     const pin = new Microsoft.Maps.Pushpin(location, {
-//         color: 'navy',
-//         visible: true,
-//     });
-//     now.entities.push(pin);
-// }
+    const lat = gpsHist[0].lat;
+    const lng = gpsHist[0].lng;
+    map = new Microsoft.Maps.Map('.map', {
+    center: {
+        latitude: lat, longitude: lng,
+    },
+    mapTypeId: Microsoft.Maps.MapTypeId.road,
+    enableSearchLogo: false,
+    enableClickableLogo:false,
+    showDashboard:false,
+    zoom: 15,
+    });
+    // pushPin(lat, lng, map);
+    // generateInfobox(lat, lng, map);
+});
 
-
-// window.onload = function () {
-//     navigator.geolocation.getCurrentPosition(mapsInit, showError, option);
-// }
+function generateInfobox(lat, lng, now) {
+    const location = new Microsoft.Maps.Location(lat, lng);
+    const infobox = new Microsoft.Maps.Infobox(location, {
+        title: 'イマココ',
+        description: "I'm here!!!",
+    });
+    infobox.setMap(now);
+}
+function pushPin(lat, lng, now) {
+    const location = new Microsoft.Maps.Location(lat, lng);
+    const pin = new Microsoft.Maps.Pushpin(location, {
+        color: 'navy',
+        visible: true,
+    });
+    now.entities.push(pin);
+}
