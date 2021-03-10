@@ -164,7 +164,7 @@ $('.end-button').on('click', function() {
     //線
     var locations = [];
     
-
+    var center = map.getCenter();
     //Create array of locations
     var coords = [center, new Microsoft.Maps.Location(center.latitude + 1, center.longitude + 1)];
     for(let i = 0; i < gpsHist.length; i++) {
