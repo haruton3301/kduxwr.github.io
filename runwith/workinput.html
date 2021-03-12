@@ -23,30 +23,11 @@
     <h1>Run With</h1>
   </header>
   <main>
-    <div class="workout">
-      <div class="start"><p>ワークアウトを開始します</p><img src="img/run_start.jpg"></div>
-      <div class="countdown"></div>
-      <div class="info">
-          <div class="countup"></div>
-          <div class="distance"></div>
-          <div class="lat"></div>
-          <div class="lng"></div>
-          <div class="speed"></div>
-      </div>
-      <div class="control">
-          <button class="start-button">開始</button>
-          <button class="pause-button">停止</button>
-          <button class="restart-button">再開</button>
-          <button class="end-button">終了</button>
-      </div>
-    </div>
-    <div class="workresult">
-      <div class="msg">お疲れさまでした</div>
+    <div class="workinput">
       <div class="map"></div>
       <div class="record">
-        <p><span>走行距離</span><span class="distance"></span></p>
-        <p><span>経過時間</span><span class="time"></span></p>
-        <p><span>平均速度</span><span class="speed"></span></p>
+        <p><span>走行距離</span><span class="distance"><input type="text" class="input-distance">KM</span></p>
+        <p><span>経過時間</span><span class="time"><span><input type="text" class="input-min">分<input type="text" class="input-sec">秒</span></p>
       </div>
     </div>
     
@@ -58,7 +39,6 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src='https://www.bing.com/api/maps/mapcontrol?mkt=ja-jp&key=AkKAP2GRI4-HJCwtMRR6KPTEIcdjZ7bmoKWJUn_J1ZHmt6rBFrGPYe3obFgiwims'></script>
   <!-- <script src="js/loginCheck.js"></script> -->
-  <script src="js/workout.js"></script>
   
 </body>
 </html>
