@@ -209,6 +209,13 @@ footer.top p {
     background: orangered;
 }
 
+.workinput-button {
+  margin-left: auto; 
+  width: 96px;
+  height: 80px;
+  line-height: 80px;
+}
+
 .info {
     padding: 16px 24px;
     height: 320px;
