@@ -22,7 +22,7 @@ firebase.auth().onAuthStateChanged(user => {
 
 const firestore = firebase.firestore();
 const geoFirestore = new GeoFirestore(firestore);
-const collection = geoFirestore.collection('workouts')
+const collection = firestore.collection('workouts')
 
 collection.add({
     user: 'user',
