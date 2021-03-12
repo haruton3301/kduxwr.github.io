@@ -112,6 +112,8 @@ var gpsInterval;
 
 $('.start-button').on('click', function() {
     $('.start').hide();
+    $('.dummy-button').hide();
+    $('.workinput-button').hide();
     $('.start-button').hide();
     $('.countdown').show();
     $('.countdown').text(countdownVal);

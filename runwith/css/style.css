@@ -219,6 +219,11 @@ footer.top p {
   cursor: pointer;
 }
 
+.dummy-button {
+  margin-right: auto;
+  visibility: hidden;
+  width: 96px;
+}
 .info {
     padding: 16px 24px;
     height: 320px;
