@@ -150,6 +150,9 @@ footer.top p {
 }
 
 /* ーーー　ホーム　ーーー */
+main.home {
+  padding: 5%;
+}
 .workout-child {
   color: white;
 }
