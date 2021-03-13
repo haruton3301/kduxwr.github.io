@@ -55,26 +55,41 @@ window.onload = function() {
                                     searchUsers = Array.from(set);
                                     let index = searchUsers.indexOf(userId);
                                     searchUsers.splice(index, 1);
-
-                                    searchUsers.forEach((uid) => {
-                                        let userRef = db.collection('users').doc(uid);
-                                        userRef.get().then((doc) => {
+                                    
+                                    db.collection('users').doc(userId).collection('requests')
+                                    .get().then(function(request) {
+                                        let request_id = [];
+                                        request.forEach(function(doc) {
                                             let data = doc.data();
-                                            let name = data.display_name;
-                                            let html = '<div class="search-child">' + name + '<button class="' + uid + '">追加リクエスト</button></div>';
-                                            let added = $(html).appendTo('.search-list');
-                                            added.find('button').on('click', function() {
-                                                let aite_id = $(this).attr('class');
-                                                $(this).parent().hide();
-                                                db.collection('users').doc(userId).collection('requests').add({
-                                                    uid: aite_id,
+                                            request_id.push(data.uid);
+                                        });
+
+                                        request_id.forEach((uid) => {
+                                            let index = searchUsers.indexOf(uid);
+                                            if(index)
+                                                searchUsers.splice(index, 1);
+                                        });
+                                        
+                                        searchUsers.forEach((uid) => {
+                                            let userRef = db.collection('users').doc(uid);
+                                            userRef.get().then((doc) => {
+                                                let data = doc.data();
+                                                let name = data.display_name;
+                                                let html = '<div class="search-child">' + name + '<button class="' + uid + '">追加リクエスト</button></div>';
+                                                let added = $(html).appendTo('.search-list');
+                                                added.find('button').on('click', function() {
+                                                    let aite_id = $(this).attr('class');
+                                                    $(this).parent().hide();
+                                                    db.collection('users').doc(userId).collection('requests').add({
+                                                        uid: aite_id,
+                                                    });
+                                                    db.collection('users').doc(aite_id).collection('accepts').add({
+                                                        uid: userId,
+                                                    });
                                                 });
-                                                db.collection('users').doc(aite_id).collection('accepts').add({
-                                                    uid: userId,
-                                                });
+                                            }).catch((error) => {
+                                                
                                             });
-                                        }).catch((error) => {
-                                            
                                         });
                                     });
                                     console.log(searchUsers);
