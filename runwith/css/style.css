@@ -171,6 +171,21 @@ footer.top p {
   margin: 4px 5%;
 }
 
+footer.home {
+  padding: 16px 0;
+  margin-top: 24px;
+  height: 152px;
+  background: #000;
+}
+footer.home p {
+  margin: 0;
+  padding: 2px;
+  text-align: center;
+  font-size: 16px;
+  color: white;
+}
+
+
 /* ーーー　ワークアウト　ーーー */
 
 .start {
