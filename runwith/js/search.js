@@ -34,7 +34,7 @@ window.onload = function() {
                     .get()
                     .then((querySnapshot) => {
                         console.log(querySnapshot);
-                        if(querySnapshot) {
+                        if(0 < querySnapshot.size) {
                             $('.non-search-list').hide();
                             querySnapshot.forEach((doc) => {
                                 let data = doc.data();
