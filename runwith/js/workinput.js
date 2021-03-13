@@ -20,10 +20,15 @@ firebase.auth().onAuthStateChanged(user => {
         console.log('logged in');
         userId = user.uid;
 
-        let userDoc = db.collection('users').doc(userId).get();
-        if (!userDoc.exists) {
+        let userRef = db.collection('users').doc(userId);
+        userRef.get().then((doc) => {
+            if (doc.exists) {
+            } else {
+                window.location.href = "./register.html";
+            }
+        }).catch((error) => {
             window.location.href = "./register.html";
-        }
+        });
     } else {
         window.location.href = "./index.html";
     } 

@@ -22,10 +22,13 @@ window.onload = function() {
     
             console.log(userId);
 
-            let userDoc = db.collection('users').doc(userId).get();
-            if (userDoc.exists) {
-                window.location.href = "./home.html";
-            }
+            let userRef = db.collection('users').doc(userId);
+            userRef.get().then((doc) => {
+                if (doc.exists) {
+                    window.location.href = "./home.html";
+                }
+            }).catch((error) => {
+            });
         } else {
             window.location.href = "./index.html";
         } 

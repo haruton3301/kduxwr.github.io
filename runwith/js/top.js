@@ -31,7 +31,14 @@ $('.login-button').on('click', function() {
 
 firebase.auth().onAuthStateChanged(user => {
     if (user) {
-        window.location.href = "./home.html";
+        let userRef = db.collection('users').doc(userId);
+        userRef.get().then((doc) => {
+            if (doc.exists) {
+                window.location.href = "./home.html";
+            } else {
+                window.location.href = "./register.html";
+            }
+        });
     } else {
         console.log('not logged in');
     } 
