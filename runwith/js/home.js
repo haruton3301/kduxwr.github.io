@@ -21,6 +21,8 @@ firebase.auth().onAuthStateChanged(user => {
         console.log('logged in');
         userId = user.uid;
 
+        console.log(userId);
+
         db.collection("workouts").where("uid", "==", userId)
         .get()
         .then((querySnapshot) => {
