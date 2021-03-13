@@ -17,7 +17,7 @@ firebase.auth().onAuthStateChanged(user => {
         console.log('logged in');
         userId = user.uid;
 
-        let userDoc = await db.collection('users').doc(userId).get();
+        let userDoc = db.collection('users').doc(userId).get();
         if (!userDoc.exists) {
             window.location.href = "./register.html";
         }

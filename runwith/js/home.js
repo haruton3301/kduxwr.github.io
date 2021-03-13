@@ -44,7 +44,7 @@ window.onload = function() {
     
             console.log(userId);
 
-            let userDoc = await db.collection('users').doc(userId).get();
+            let userDoc = db.collection('users').doc(userId).get();
             if (!userDoc.exists) {
                 window.location.href = "./register.html";
             }
