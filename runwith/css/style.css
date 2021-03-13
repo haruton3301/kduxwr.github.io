@@ -491,12 +491,12 @@ main.register {
 }
 
 .message-child.mine {
-  color: yellowgreen;
+  background: yellowgreen;
   text-align: right;
 }
 
 .message-child.other {
-  color: #ccc;
+  background: #ccc;
   text-align: left;
 }
 
