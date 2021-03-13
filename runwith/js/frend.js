@@ -26,10 +26,11 @@ window.onload = function() {
             let userRef = db.collection('users').doc(userId);
             userRef.get().then((doc) => {
                 if (doc.exists) {
-                    db.collection("users").doc(userId).collection('chat').doc('l0Nif2HNmzUOlgrVuBLz3hRerfw1')
+                    db.collection("users").doc(userId)
                     .get()
                     .then((querySnapshot) => {
                         console.log(querySnapshot);
+                        console.log(querySnapshot.data())
                         // if(0 < querySnapshot.size) {
                         //     querySnapshot.forEach((doc) => {
                         //         let data = doc.data();
