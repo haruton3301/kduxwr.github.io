@@ -464,5 +464,13 @@ main.register {
   line-height: 64px;
   color: white;
   font-size: 24px;
-  padding-right: 16px;
+}
+
+.search-child button {
+  height: 40px;
+  margin: 7px 16px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  border: 1px solid black;
+  background: yellowgreen;
 }
