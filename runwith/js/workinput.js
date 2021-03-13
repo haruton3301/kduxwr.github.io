@@ -1,3 +1,5 @@
+$('.workinput-exe-button').hide();
+
 var firebaseConfig = {
     apiKey: "AIzaSyCr9eiIN966ucGKJfw4rdo_RncpFvCfbdU",
     authDomain: "runwith-9be83.firebaseapp.com",
@@ -34,7 +36,7 @@ const option = {
     timeout: 1000000,
 };
 function mapsInit(position) {
-    console.log(position);
+    $('.workinput-exe-button').show();
     const lat = position.coords.latitude;
     const lng = position.coords.longitude;
     map = new Microsoft.Maps.Map('.map', {
