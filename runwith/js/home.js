@@ -85,6 +85,8 @@ window.onload = function() {
                         enableSearchLogo: false,
                         enableClickableLogo:false,
                         showDashboard:false,
+                        scrollwheel: false,
+                        disableDefaultUI: true,
                         zoom: 15,
                     });
     
