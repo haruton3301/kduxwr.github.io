@@ -55,7 +55,6 @@ window.onload = function() {
                                         let chat_id = $(this).attr('class');
                                         aite_id = chat_id;
                                         
-                                        var count = 0;
                                         await db.collection("users").doc(userId).collection('chat').doc(chat_id).collection('message')
                                         .orderBy("date").limit(20).get()
                                         .then((querySnapshot) => {
@@ -65,16 +64,12 @@ window.onload = function() {
                                                     let data = doc.data();
                                                     console.log(data);
                                                     let message = data.message;
-                                                    count++;
 
                                                     let html;
                                                     if(data.isMine) {
                                                         html = '<div class="message-child mine">' + message + '</div>';
-                                                    } else {
-                                                        html = '<div class="message-child other">' + message + '</div>';
+                                                        $(html).appendTo('.message-list');
                                                     }
-
-                                                    $(html).appendTo('.message-list');
                                                 });
                                             }
                                         });
@@ -85,12 +80,9 @@ window.onload = function() {
                                             snapshot.docChanges().forEach((change) => {
                                                 if (change.type === "added") {
                                                     let data = change.doc.data();
-                                                    if(0 < count) {
-                                                        if(!data.isMine) {
-                                                            html = '<div class="message-child other">' + data.message + '</div>';
-                                                            $(html).appendTo('.message-list');
-                                                        }
-                                                        count--;
+                                                    if(!data.isMine) {
+                                                        html = '<div class="message-child other">' + data.message + '</div>';
+                                                        $(html).appendTo('.message-list');
                                                     }
                                                 }
                                             });
