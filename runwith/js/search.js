@@ -61,16 +61,22 @@ window.onload = function() {
                                         userRef.get().then((doc) => {
                                             let data = doc.data();
                                             let name = data.display_name;
-                                            let html = '<div class="search-child">' + name + '<button class="' + uid + '">追加リクエスト</button></div>';
+                                            let html = '<div class="search-child">' + name + '<button class="' + uid + '">メッセージ</button></div>';
                                             let added = $(html).appendTo('.search-list');
-                                            added.find('button').on('click', function() {
+                                            added.find('button').on('click', async function() {
                                                 let aite_id = $(this).attr('class');
-                                                $(this).parent().hide();
-                                                db.collection('users').doc(userId).collection('requests').add({
+                                                let date = new Date();
+                                                await db.collection('users').doc(userId).collection('chat').doc(aite_id).set({
                                                     uid: aite_id,
+                                                    isMine: true,
+                                                    date: date,
+                                                    message: 'トークルームを開設しました。',
                                                 });
-                                                db.collection('users').doc(aite_id).collection('accepts').add({
+                                                await db.collection('users').doc(aite_id).collection('chat').doc(userId).set({
                                                     uid: userId,
+                                                    isMine: false,
+                                                    date: date,
+                                                    message: 'トークルームを開設しました。',
                                                 });
                                             });
                                         }).catch((error) => {
