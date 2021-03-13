@@ -11,7 +11,7 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const gdb = new GeoFirestore(firestore);
+const gdb = new GeoFirestore(db);
 const collection = gdb.collection('workouts');
 
 var userId;
