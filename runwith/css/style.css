@@ -510,6 +510,7 @@ main.register {
   position: fixed;
   bottom: 64px;
   right: 0;
+  background: #555;
 }
 
 .message-sender input {
