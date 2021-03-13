@@ -56,7 +56,7 @@ window.onload = function() {
                                         aite_id = chat_id;
 
                                         db.collection("users").doc(userId).collection('chat').doc(chat_id).collection('message')
-                                        .get()
+                                        .orderBy("date").limit(20).get()
                                         .then((querySnapshot) => {
                                             console.log(querySnapshot);
                                             if(0 < querySnapshot.size) {
