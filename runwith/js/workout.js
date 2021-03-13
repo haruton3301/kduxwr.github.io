@@ -93,10 +93,14 @@ function gpsIntervalFunc() {
             $('.distance').text(totalDistance.toFixed(2) + 'KM');
             $('.lat').text(latlng.lat);
             $('.lng').text(latlng.lng);
-            if(speed == null) {
-                $('.speed').text('null');
+            if(speed == null || speed == 0) {
+                $('.speed').text('ー');
             } else {
-                $('.speed').text(speed);
+                let speedConvert = 1000 / speed;
+                smin = Math.floor(speedConvert / 60);
+                ssec = speedConvert % 60;
+                speedText = smin + '分' + ssec + '秒 / キロ';
+                $('.speed').text(speedText);
             }
         }
     } else {
