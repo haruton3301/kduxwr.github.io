@@ -61,7 +61,7 @@ window.onload = function() {
                                         userRef.get().then((doc) => {
                                             let data = doc.data();
                                             let name = data.display_name;
-                                            let html = '<div class="search-child"><span class="name">' + name + '</span><button class="search-add-button">追加リクエスト</button></div>';
+                                            let html = '<div class="search-child">' + name + '<button class="search-add-button">追加リクエスト</button></div>';
                                             let added = $(html).appendTo('.search-list');
                                             added.find('button').on('click', function() {
 
