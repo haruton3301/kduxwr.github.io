@@ -460,6 +460,9 @@ main.register {
 }
 
 .search-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 64px;
   line-height: 64px;
   color: white;
@@ -468,9 +471,12 @@ main.register {
 
 .search-child button {
   height: 40px;
+  width: 120px;
   margin: 7px 16px;
   box-sizing: border-box;
   border-radius: 20px;
   border: 1px solid black;
   background: yellowgreen;
+  font-size: 16px;
+  font-weight: bold;
 }
