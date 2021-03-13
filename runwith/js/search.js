@@ -66,13 +66,13 @@ window.onload = function() {
                                             added.find('button').on('click', async function() {
                                                 let aite_id = $(this).attr('class');
                                                 let date = new Date();
-                                                await db.collection('users').doc(userId).collection('chat').doc(aite_id).set({
+                                                await db.collection('users').doc(userId).collection('chat').doc(aite_id).collection('message').add({
                                                     uid: aite_id,
                                                     isMine: true,
                                                     date: date,
                                                     message: 'トークルームを開設しました。',
                                                 });
-                                                await db.collection('users').doc(aite_id).collection('chat').doc(userId).set({
+                                                await db.collection('users').doc(aite_id).collection('chat').doc(userId).collection('message').add({
                                                     uid: userId,
                                                     isMine: false,
                                                     date: date,
