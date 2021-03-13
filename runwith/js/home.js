@@ -35,86 +35,89 @@ function sec2str(second) {
     return (phour + ':' + pmin + ':' + psec);
 }
 
-var userId;
-firebase.auth().onAuthStateChanged(user => {
-    if (user) {
-        console.log('logged in');
-        userId = user.uid;
-
-        console.log(userId);
-
-        db.collection("workouts").where("uid", "==", userId)
-        .orderBy("date", "desc").limit(10)
-        .get()
-        .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                let data = doc.data();
-                let date = data.date.toDate();
-                let dateText = date.toLocaleDateString('ja-JP', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-                let timeText = date.toLocaleTimeString('ja-JP');
-                let dateTimeText = dateText + timeText;
-                let distance = data.distance;
-                let time = sec2str(data.time);
-                let ave = convertAveTime(data.ave);
-                let gpsHist = data.map;
-
-                let html = `<div class="workout-child">
-                    <div class="date">` + dateTimeText + `</div>
-                    <div class="map"></div>
-                    <div class="distance">走行距離　` + distance + `KM</div>
-                    <div class="time">経過時間　` + time + `</div>
-                    <div class="ave">平均速度　` + ave + `</div>
-                </div>`;
-
-                let child = $(html).appendTo('.workout-list');
-                console.log(doc.id, " => ", doc.data());
-
-                let map = new Microsoft.Maps.Map(child.find('.map').get(0), {
-                    mapTypeId: Microsoft.Maps.MapTypeId.road,
-                    enableSearchLogo: false,
-                    enableClickableLogo:false,
-                    showDashboard:false,
-                    zoom: 15,
+window.onload = function() {
+    var userId;
+    firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+            console.log('logged in');
+            userId = user.uid;
+    
+            console.log(userId);
+    
+            db.collection("workouts").where("uid", "==", userId)
+            .orderBy("date", "desc").limit(10)
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    let data = doc.data();
+                    let date = data.date.toDate();
+                    let dateText = date.toLocaleDateString('ja-JP', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                    let timeText = date.toLocaleTimeString('ja-JP');
+                    let dateTimeText = dateText + timeText;
+                    let distance = data.distance;
+                    let time = sec2str(data.time);
+                    let ave = convertAveTime(data.ave);
+                    let gpsHist = data.map;
+    
+                    let html = `<div class="workout-child">
+                        <div class="date">` + dateTimeText + `</div>
+                        <div class="map"></div>
+                        <div class="distance">走行距離　` + distance + `KM</div>
+                        <div class="time">経過時間　` + time + `</div>
+                        <div class="ave">平均速度　` + ave + `</div>
+                    </div>`;
+    
+                    let child = $(html).appendTo('.workout-list');
+                    console.log(doc.id, " => ", doc.data());
+    
+                    let map = new Microsoft.Maps.Map(child.find('.map').get(0), {
+                        mapTypeId: Microsoft.Maps.MapTypeId.road,
+                        enableSearchLogo: false,
+                        enableClickableLogo:false,
+                        showDashboard:false,
+                        zoom: 15,
+                    });
+    
+                    let coords = [];
+                    for(let i = 0; i < gpsHist.length; i++) {
+                        let location = new Microsoft.Maps.Location(gpsHist[i].lat, gpsHist[i].lng);
+                        coords.push(location);
+                    }
+    
+                    //Create a polyline
+                    let line = new Microsoft.Maps.Polyline(coords, {
+                        strokeColor: 'red',
+                        strokeThickness: 3,
+                        //strokeDashArray: [4, 4]
+                    });
+    
+                    //Add the polyline to map
+                    map.entities.push(line);
+    
+                    map.setView({
+                        bounds: Microsoft.Maps.LocationRect.fromLocations(coords),
+                        padding: 100 //Add a padding to buffer map to account for pushpin pixel dimensions
+                    });
                 });
-
-                let coords = [];
-                for(let i = 0; i < gpsHist.length; i++) {
-                    let location = new Microsoft.Maps.Location(gpsHist[i].lat, gpsHist[i].lng);
-                    coords.push(location);
-                }
-
-                //Create a polyline
-                let line = new Microsoft.Maps.Polyline(coords, {
-                    strokeColor: 'red',
-                    strokeThickness: 3,
-                    //strokeDashArray: [4, 4]
-                });
-
-                //Add the polyline to map
-                map.entities.push(line);
-
-                map.setView({
-                    bounds: Microsoft.Maps.LocationRect.fromLocations(coords),
-                    padding: 100 //Add a padding to buffer map to account for pushpin pixel dimensions
-                });
+            })
+            .catch((error) => {
+                console.log("Error getting documents: ", error);
             });
-        })
-        .catch((error) => {
-            console.log("Error getting documents: ", error);
-        });
-    } else {
-        window.location.href = "./index.html";
-    } 
-  });
+        } else {
+            window.location.href = "./index.html";
+        } 
+    });
+}
 
-  $('.logout-button').on('click', function() {
-    firebase.auth().signOut().then(()=>{
-        window.location.href = "./index.html";
-      })
-      .catch( (error)=>{
-        window.location.href = "./index.html";
-      });
-  });
+
+$('.logout-button').on('click', function() {
+firebase.auth().signOut().then(()=>{
+    window.location.href = "./index.html";
+    })
+    .catch( (error)=>{
+    window.location.href = "./index.html";
+    });
+});
 
 
 
