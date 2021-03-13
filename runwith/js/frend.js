@@ -69,12 +69,16 @@ window.onload = function() {
                                                     if(data.isMine) {
                                                         html = '<div class="message-child mine">' + message + '</div>';
                                                         $(html).appendTo('.message-list');
+                                                    } else {
+                                                        html = '<div class="message-child other">' + data.message + '</div>';
+                                                        $(html).appendTo('.message-list');
                                                     }
                                                 });
                                             }
                                         });
-
-                                        await db.collection("users").doc(userId).collection('chat')
+                                        
+                                        setTimeout(function() {
+                                        db.collection("users").doc(userId).collection('chat')
                                         .doc(chat_id).collection('message')
                                         .onSnapshot((snapshot) => {
                                             snapshot.docChanges().forEach((change) => {
@@ -87,6 +91,7 @@ window.onload = function() {
                                                 }
                                             });
                                         });
+                                    }, 1000);
 
 
                                         // let aite_id = $(this).attr('class');
