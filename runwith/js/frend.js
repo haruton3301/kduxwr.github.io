@@ -43,6 +43,25 @@ window.onload = function() {
                                     let html = '<div class="chat-child">' + name + '<button class="' + uid + '">メッセージ</button></div>';
                                     let added = $(html).appendTo('.chat-list');
                                     added.find('button').on('click', async function() {
+                                        $('.chat-list').hide();
+                                        $('.message-list').show();
+                                        $('.message-list').empty();
+
+                                        let chat_id = $(this).attr('class');
+
+                                        db.collection("users").doc(userId).collection('chat').doc(chat_id).collection('message')
+                                        .get()
+                                        .then((querySnapshot) => {
+                                            console.log(querySnapshot);
+                                            if(0 < querySnapshot.size) {
+                                                querySnapshot.forEach((doc) => {
+                                                    let data = doc.data();
+                                                    console.log(data);
+
+                                                });
+                                            }
+                                        });
+
                                         // let aite_id = $(this).attr('class');
                                         // let date = new Date();
                                         // await db.collection('users').doc(userId).collection('chat').doc(aite_id).set({
