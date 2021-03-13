@@ -35,8 +35,8 @@ window.onload = function() {
     });
 }
 
-$('.user-add-button').on('click', function() {
-    db.collection('users').doc(userId).set({
+$('.user-add-button').on('click', async function() {
+    await db.collection('users').doc(userId).set({
         uid: userId,
         display_name: $('.input-name').val(),
         follow: [],
