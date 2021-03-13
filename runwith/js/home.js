@@ -107,5 +107,14 @@ firebase.auth().onAuthStateChanged(user => {
     } 
   });
 
+  $('.logout-button').on('click', function() {
+    firebase.auth().signOut().then(()=>{
+        window.location.href = "./index.html";
+      })
+      .catch( (error)=>{
+        window.location.href = "./index.html";
+      });
+  });
+
 
 
