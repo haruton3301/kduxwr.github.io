@@ -11,9 +11,11 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+var userId;
 firebase.auth().onAuthStateChanged(user => {
     if (user) {
         console.log('logged in');
+        userId = user.uid;
     } else {
         window.location.href = "./index.html";
     } 
@@ -21,13 +23,8 @@ firebase.auth().onAuthStateChanged(user => {
 
 
 const firestore = firebase.firestore();
-//const geoFirestore = new GeoFirestore(firestore);
-const collection = firestore.collection('workouts')
-
-collection.add({
-    user: 'user',
-});
-
+const geoFirestore = new GeoFirestore(firestore);
+const collection = geoFirestore.collection('workouts');
 
 $('.pause-button').hide();
 $('.restart-button').hide();
@@ -198,7 +195,7 @@ $('.end-button').on('click', function() {
     //線
     var locations = [];
     
-    var center = map.getCenter();
+    
     //Create array of locations
     var coords = [];
     for(let i = 0; i < gpsHist.length; i++) {
@@ -219,6 +216,11 @@ $('.end-button').on('click', function() {
     //Add the polyline to map
     map.entities.push(line);
 
+    map.setView({
+        bounds: Microsoft.Maps.LocationRect.fromLocations(coords),
+        padding: 100 //Add a padding to buffer map to account for pushpin pixel dimensions
+    });
+
     $('.record .distance').text(totalDistance.toFixed(2) + 'KM');
     $('.record .time').text(sec2str(countupVal));
 
@@ -229,6 +231,21 @@ $('.end-button').on('click', function() {
     let pmin = ( '00' + min ).slice( -2 );
     let psec = ( '00' + sec ).slice( -2 );
     $('.record .speed').text(pmin + '分' + psec + '秒 / キロ');
+
+    let center = map.getCenter();
+    let lat = center.latitude;
+    let lng = center.longitude;
+    let date = new Date();
+
+    collection.add({
+        uid: userId,
+        date: date,
+        distance: totalDistance,
+        time: countupVal,
+        ave: aveTime,
+        coordinates: new firebase.firestore.GeoPoint(lat, lng),
+        map: gpsHist,
+    });
 
 });
 
