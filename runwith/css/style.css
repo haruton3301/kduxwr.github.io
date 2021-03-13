@@ -513,15 +513,14 @@ main.register {
 }
 
 .message-sender input {
-  height: 40px;
-  width: 320px;
+  padding: 8px;
+  width: 240px;
   font-size: 24px;
-  margin-right: 40px;
+  margin-right: 24px;
 }
 
 .message-sender button {
-  width: 40px;
-  height: 40px;
+  padding: 2px 8px;
   font-size: 24px;
 }
 
