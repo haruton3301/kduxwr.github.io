@@ -459,7 +459,7 @@ main.register {
   padding: 16px;
 }
 
-.search-child span {
+.search-child .name {
   height: 64px;
   line-height: 64px;
   color: white;
