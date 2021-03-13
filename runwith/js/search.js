@@ -66,6 +66,8 @@ window.onload = function() {
                                             console.log(data.uid);
                                         });
 
+                                        console.log(request_id);
+
                                         request_id.forEach((reid) => {
                                             let index = searchUsers.indexOf(reid);
                                             if(0 < index)
