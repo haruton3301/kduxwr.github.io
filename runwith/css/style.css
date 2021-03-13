@@ -451,3 +451,10 @@ main.register {
   font-size: 24px;
 }
 
+/* ーーー　サーチ　ーーー */
+
+.non-search-list {
+  color: white;
+  font-size: 24px;
+  padding: 16px;
+}
