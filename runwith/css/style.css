@@ -392,6 +392,7 @@ footer.home p {
   color: black;
   font-weight: bold;
   background: yellowgreen;
+  margin-bottom: 120px;
 }
 
 .workinput-exe-button:hover {
