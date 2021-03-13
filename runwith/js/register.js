@@ -13,8 +13,8 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+var userId;
 window.onload = function() {
-    var userId;
     firebase.auth().onAuthStateChanged(user => {
         if (user) {
             console.log('logged in');
