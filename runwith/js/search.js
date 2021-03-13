@@ -1,6 +1,3 @@
-
-$('.workinput-result').hide();
-
 var firebaseConfig = {
     apiKey: "AIzaSyCr9eiIN966ucGKJfw4rdo_RncpFvCfbdU",
     authDomain: "runwith-9be83.firebaseapp.com",
