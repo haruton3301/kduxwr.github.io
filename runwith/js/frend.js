@@ -26,21 +26,21 @@ window.onload = function() {
             let userRef = db.collection('users').doc(userId);
             userRef.get().then((doc) => {
                 if (doc.exists) {
-                    db.collection("users").doc(userId).collection('chat')
+                    db.collection("users").doc(userId).collection('chat').doc('l0Nif2HNmzUOlgrVuBLz3hRerfw1')
                     .get()
                     .then((querySnapshot) => {
                         console.log(querySnapshot);
-                        if(0 < querySnapshot.size) {
-                            querySnapshot.forEach((doc) => {
-                                let data = doc.data();
+                        // if(0 < querySnapshot.size) {
+                        //     querySnapshot.forEach((doc) => {
+                        //         let data = doc.data();
 
-                                console.log(data);
+                        //         console.log(data);
            
                                 
-                            });
-                        } else {
-                            $('.non-chat-list').show();
-                        }
+                        //     });
+                        // } else {
+                        //     $('.non-chat-list').show();
+                        // }
                     })
                     .catch((error) => {
                         console.log("Error getting documents: ", error);
