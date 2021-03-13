@@ -277,3 +277,74 @@ footer.top p {
   line-height: 32px;
 }
 
+/* ーーー　ワークインプット ーーー　*/
+
+.workinput 
+{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.workinput .map {
+  position: relative;
+  height: 240px;
+  margin: 16px 5%;
+}
+
+.workinput .map:after {
+  width: 64px;
+  height: 64px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  content: "+";
+  text-align: center;
+  line-height: 64px;
+  font-size: 64px;
+  font-weight: lighter;
+  color: black;
+}
+
+.workinput .record {
+  
+  padding: 8px 40px;
+  color: white;
+  font-size: 20px;
+}
+
+.workinput input {
+  height: 40px;
+}
+
+.workinput p span:first-child {
+  padding-right: 20px;
+}
+
+.workinput input.input-distance {
+  width: 80px;
+}
+
+.workinput input.input-sec
+,.workinput input.input-min {
+  width: 40px;
+}
+
+.workinput-exe-button {
+  width: 120px;
+  height: 80px;
+  border: 4px solid black;
+  border-radius: 40px;
+  font-size: 24px;
+  color: black;
+  font-weight: bold;
+  background: yellowgreen;
+}
+
+.workinput-exe-button:hover {
+  background: green;
+}
+

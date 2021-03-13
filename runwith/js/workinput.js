@@ -11,9 +11,11 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+var userId;
 firebase.auth().onAuthStateChanged(user => {
     if (user) {
         console.log('logged in');
+        userId = user.uid;
     } else {
         window.location.href = "./index.html";
     } 
@@ -21,14 +23,10 @@ firebase.auth().onAuthStateChanged(user => {
 
 
 const firestore = firebase.firestore();
-//const geoFirestore = new GeoFirestore(firestore);
-const collection = firestore.collection('workouts')
+const geoFirestore = new GeoFirestore(firestore);
+const collection = geoFirestore.collection('workouts')
 
-collection.add({
-    user: 'user',
-});
-
-
+var map;
 
 const option = {
     enableHighAccuracy: true,
@@ -36,7 +34,7 @@ const option = {
     timeout: 1000000,
 };
 function mapsInit(position) {
-    console.log(position)
+    console.log(position);
     const lat = position.coords.latitude;
     const lng = position.coords.longitude;
     map = new Microsoft.Maps.Map('.map', {
@@ -62,20 +60,25 @@ function showError(error) {
     alert('error:' + e);
 }
 
-var map;
+
 window.onload = function () {
-    navigator.geolocation.getCurrentPosition(mapsInit, showError ,option);
+    console.log('aaa');
+    navigator.geolocation.getCurrentPosition(mapsInit, showError);
 }
 
-// $('.workinput-exe-button').on('click', function() {
-//     var center = map.getCenter();
-//     //Create array of locations
-//     var coords = [];
-//     for(let i = 0; i < gpsHist.length; i++) {
-//         let location = new Microsoft.Maps.Location(gpsHist[i].lat, gpsHist[i].lng);
-//         coords.push(location);
-//     }
-// });
+$('.workinput-exe-button').on('click', function() {
+    var center = map.getCenter();
+    console.log(center);
+    let lat = center.latitude;
+    let lng = center.longitude;
+    let date = new Date();
+    collection.add({
+        uid: userId,
+        date: date,
+        coordinates: new firebase.firestore.GeoPoint(lat, lng),
+        map: [center],
+    });
+});
 
 function generateInfobox(lat, lng, now) {
     const location = new Microsoft.Maps.Location(lat, lng);
