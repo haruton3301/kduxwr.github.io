@@ -33,6 +33,7 @@ window.onload = function() {
                     .orderBy("date", "desc").limit(1)
                     .get()
                     .then((querySnapshot) => {
+                        console.log(querySnapshot);
                         if(0 < querySnapshot.length) {
                             $('.non-search-list').hide();
                             querySnapshot.forEach((doc) => {
