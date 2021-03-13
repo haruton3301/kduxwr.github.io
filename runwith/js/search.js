@@ -55,6 +55,21 @@ window.onload = function() {
                                     searchUsers = Array.from(set);
                                     let index = searchUsers.indexOf(userId);
                                     searchUsers.splice(index, 1);
+
+                                    searchUsers.forEach((uid) => {
+                                        let userRef = db.collection('users').doc(uid);
+                                        userRef.get().then((doc) => {
+                                            let data = doc.data();
+                                            let name = data.display_name;
+                                            let html = '<div class="search-child"><span class="name">' + name + '</span><button class="search-add-button">追加リクエスト</button></div>';
+                                            let added = $(html).appendTo('.search-list');
+                                            added.find('button').on('click', function() {
+
+                                            });
+                                        }).catch((error) => {
+                                            
+                                        });
+                                    });
                                     console.log(searchUsers);
                                 });
                             });
