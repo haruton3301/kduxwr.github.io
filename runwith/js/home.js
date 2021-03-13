@@ -55,13 +55,16 @@ firebase.auth().onAuthStateChanged(user => {
         .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 let data = doc.data();
-                let date = getStringFromDate(data.date);
+                
+                let dateText = data.date.toLocaleDateString('ja-JP', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                let timeText = data.date.toLocaleTimeString('ja-JP');
+                let dateTimeText = dateText + timeText;
                 let distance = data.distance;
                 let time = data.time;
                 let speed = data.speed;
 
                 let html = `<div class="workout-child">
-                    <div class="date">` + date + `</div>
+                    <div class="date">` + dateTimeText + `</div>
                     <div class="map"></div>
                     <div class="distance">` + distance + `</div>
                     <div class="time">` + time + `</div>
