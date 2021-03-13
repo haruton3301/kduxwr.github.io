@@ -1,4 +1,5 @@
-$('.workinput-exe-button').hide();
+
+$('.workinput-result').hide();
 
 var firebaseConfig = {
     apiKey: "AIzaSyCr9eiIN966ucGKJfw4rdo_RncpFvCfbdU",
@@ -36,8 +37,6 @@ const option = {
     timeout: 1000000,
 };
 function mapsInit(position) {
-    $('.workinput-exe-button').show();
-    console.log('aaa');
     const lat = position.coords.latitude;
     const lng = position.coords.longitude;
     map = new Microsoft.Maps.Map('.map', {
@@ -82,5 +81,9 @@ $('.workinput-exe-button').on('click', function() {
         coordinates: new firebase.firestore.GeoPoint(lat, lng),
         map: [mapCenter],
     });
+    $('.map').hide();
+    $('.record').hide();
+    $('.workinput-exe-button').hide();
+    $('.workinput-result').show();
 });
 
