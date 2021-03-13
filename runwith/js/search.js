@@ -18,6 +18,7 @@ const gdb = new GeoFirestore(db);
 const collection = gdb.collection('workouts');
 
 window.onload = function() {
+    $('.non-search-list').hide();
     var userId;
     firebase.auth().onAuthStateChanged(user => {
         if (user) {
@@ -35,7 +36,6 @@ window.onload = function() {
                     .then((querySnapshot) => {
                         console.log(querySnapshot);
                         if(0 < querySnapshot.size) {
-                            $('.non-search-list').hide();
                             querySnapshot.forEach((doc) => {
                                 let data = doc.data();
                 
