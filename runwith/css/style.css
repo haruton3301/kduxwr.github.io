@@ -487,7 +487,7 @@ main.register {
   border-radius: 20px;
   font-size: 16px;
   color: black;
-  margin: 4px;
+  margin: 8px 0;
 }
 
 .message-child.mine {
