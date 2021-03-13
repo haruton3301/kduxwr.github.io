@@ -61,9 +61,9 @@ window.onload = function() {
                                             let html = '<div class="search-child">' + name + '<button class="' + uid + '">追加</button></div>';
                                             let added = $(html).appendTo('.search-list');
                                             added.find('button').on('click', async function() {
+                                                let aite_id = $(this).attr('class');
                                                 await db.collection('users').doc(userId).collection('chat').doc(aite_id).then(async (doc) => {
                                                     if (!doc.exists) {
-                                                        let aite_id = $(this).attr('class');
                                                         let date = new Date();
                                                         await db.collection('users').doc(userId).collection('chat').doc(aite_id).set({
                                                             uid: aite_id,
