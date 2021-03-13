@@ -44,10 +44,15 @@ window.onload = function() {
     
             console.log(userId);
 
-            let userDoc = db.collection('users').doc(userId).get();
-            if (!userDoc.exists) {
+            let userRef = db.collection('users').doc(userId);
+            userRef.get().then((doc) => {
+                if (doc.exists) {
+                } else {
+                    window.location.href = "./register.html";
+                }
+            }).catch((error) => {
                 window.location.href = "./register.html";
-            }
+            });
     
             db.collection("workouts").where("uid", "==", userId)
             .orderBy("date", "desc").limit(10)
