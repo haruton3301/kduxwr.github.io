@@ -24,7 +24,7 @@ firebase.auth().onAuthStateChanged(user => {
 
 const firestore = firebase.firestore();
 const geoFirestore = new GeoFirestore(firestore);
-const collection = geoFirestore.collection('workouts')
+const collection = geoFirestore.collection('workouts');
 
 var map;
 
@@ -63,7 +63,7 @@ function showError(error) {
 
 window.onload = function () {
     console.log('aaa');
-    navigator.geolocation.getCurrentPosition(mapsInit, showError);
+    navigator.geolocation.getCurrentPosition(mapsInit, showError, option);
 }
 
 $('.workinput-exe-button').on('click', function() {
@@ -72,28 +72,12 @@ $('.workinput-exe-button').on('click', function() {
     let lat = center.latitude;
     let lng = center.longitude;
     let date = new Date();
+    let mapCenter = {lat, lng};
     collection.add({
         uid: userId,
         date: date,
         coordinates: new firebase.firestore.GeoPoint(lat, lng),
-        //map: [center],
+        map: [mapCenter],
     });
 });
-
-function generateInfobox(lat, lng, now) {
-    const location = new Microsoft.Maps.Location(lat, lng);
-    const infobox = new Microsoft.Maps.Infobox(location, {
-        title: 'イマココ',
-        description: "I'm here!!!",
-    });
-    infobox.setMap(now);
-}
-function pushPin(lat, lng, now) {
-    const location = new Microsoft.Maps.Location(lat, lng);
-    const pin = new Microsoft.Maps.Pushpin(location, {
-        color: 'navy',
-        visible: true,
-    });
-    now.entities.push(pin);
-}
 
