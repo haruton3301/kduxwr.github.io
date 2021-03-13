@@ -9,13 +9,15 @@ var firebaseConfig = {
     measurementId: "G-X1NCY7LC7S"
     };
     
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+
 
 var userId;
 var aite_id;
 window.onload = function() {
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    
     $('.non-chat-list').hide();
     $('.message-sender').hide();
 
