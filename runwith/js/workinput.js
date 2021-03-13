@@ -76,7 +76,7 @@ $('.workinput-exe-button').on('click', function() {
         uid: userId,
         date: date,
         coordinates: new firebase.firestore.GeoPoint(lat, lng),
-        map: [center],
+        //map: [center],
     });
 });
 
