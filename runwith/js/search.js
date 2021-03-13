@@ -50,7 +50,7 @@ window.onload = function() {
                                 });
                                 let set = new Set(searchUsers);
                                 searchUsers = Array.from(set);
-                                let index = fruits.indexOf(userId);
+                                let index = searchUsers.indexOf(userId);
                                 searchUsers.splice(index, 1);
                                 console.log(searchUsers);
                             });
