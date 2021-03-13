@@ -155,7 +155,8 @@ footer.top p {
 }
 .workout-child .date {
   font-size: 24px;
-  padding: 4px 8px;
+  width: 90%;
+  margin: 4px 5%;
 }
 .workout-child .map {
   height: 240px;
@@ -166,7 +167,8 @@ footer.top p {
 ,.workout-child .time
 ,.workout-child .ave {
   font-size: 16px;
-  padding: 4px 8px;
+  width: 90%;
+  margin: 4px 5%;
 }
 
 /* ーーー　ワークアウト　ーーー */
