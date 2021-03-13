@@ -61,7 +61,6 @@ window.onload = function() {
                                         
                                         request.forEach(function(doc) {
                                             let data = doc.data();
-                                            request_id.push(data.uid);
                                             console.log(data.uid);
 
                                             let index = searchUsers.indexOf(data.uid);
