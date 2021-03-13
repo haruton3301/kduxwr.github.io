@@ -19,6 +19,7 @@ window.onload = function() {
     $('.non-chat-list').hide();
     $('.message-sender').hide();
 
+
     firebase.auth().onAuthStateChanged(user => {
         if (user) {
             console.log('logged in');
@@ -29,6 +30,61 @@ window.onload = function() {
             let userRef = db.collection('users').doc(userId);
             userRef.get().then((doc) => {
                 if (doc.exists) {
+                    let urlHash = location.hash;
+                    let user_id = urlHash.slice(1);
+                    if(urlHash) {
+                        $('.chat-list').hide();
+                        $('.message-list').show();
+                        $('.message-list').empty();
+                        $('.message-sender').show();
+                        $('.message-sender input').val('');
+
+                        let chat_id = user_id;
+                        aite_id = chat_id;
+
+                        var count = 0;
+                                        
+                        await db.collection("users").doc(userId).collection('chat').doc(chat_id).collection('message')
+                        .orderBy("date").limit(20).get()
+                        .then((querySnapshot) => {
+                            console.log(querySnapshot);
+                            count = querySnapshot.size;
+                            if(0 < querySnapshot.size) {
+                                querySnapshot.forEach((doc) => {
+                                    let data = doc.data();
+                                    console.log(data);
+                                    let message = data.message;
+
+                                    let html;
+                                    if(data.isMine) {
+                                        html = '<div class="message-child mine">' + message + '</div>';
+                                        $(html).appendTo('.message-list');
+                                    } else {
+                                        html = '<div class="message-child other">' + data.message + '</div>';
+                                        $(html).appendTo('.message-list');
+                                    }
+                                });
+                            }
+                        });
+                                        
+                        await db.collection("users").doc(userId).collection('chat')
+                        .doc(chat_id).collection('message')
+                        .onSnapshot((snapshot) => {
+                            snapshot.docChanges().forEach((change) => {
+                                if (change.type === "added") {
+                                    let data = change.doc.data();
+                                    if(!data.isMine && 0 == count) {
+                                        
+                                        html = '<div class="message-child other">' + data.message + '</div>';
+                                        $(html).appendTo('.message-list');
+                                    }
+                                    count--;
+                                    console.log(count);
+                                }
+                            });
+                        });    
+                    } else {
+
                     db.collection("users").doc(userId).collection('chat')
                     .get()
                     .then((querySnapshot) => {
@@ -125,6 +181,7 @@ window.onload = function() {
            
                                 
                             });
+                        
                         } else {
                             $('.non-chat-list').show();
                         }
@@ -132,6 +189,7 @@ window.onload = function() {
                     .catch((error) => {
                         console.log("Error getting documents: ", error);
                     });
+                }
                 } else {
                     window.location.href = "./register.html";
                 }

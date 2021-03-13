@@ -58,29 +58,36 @@ window.onload = function() {
                                         userRef.get().then((doc) => {
                                             let data = doc.data();
                                             let name = data.display_name;
-                                            let html = '<div class="search-child">' + name + '<button class="' + uid + '">メッセージ</button></div>';
+                                            let html = '<div class="search-child">' + name + '<button class="' + uid + '">追加</button></div>';
                                             let added = $(html).appendTo('.search-list');
                                             added.find('button').on('click', async function() {
-                                                let aite_id = $(this).attr('class');
-                                                let date = new Date();
-                                                await db.collection('users').doc(userId).collection('chat').doc(aite_id).set({
-                                                    uid: aite_id,
+                                                await db.collection('users').doc(userId).collection('chat').doc(aite_id).then(async (doc) => {
+                                                    if (!doc.exists) {
+                                                        let aite_id = $(this).attr('class');
+                                                        let date = new Date();
+                                                        await db.collection('users').doc(userId).collection('chat').doc(aite_id).set({
+                                                            uid: aite_id,
+                                                        });
+                                                        await db.collection('users').doc(aite_id).collection('chat').doc(userId).set({
+                                                            uid: userId,
+                                                        });
+                                                        await db.collection('users').doc(userId).collection('chat').doc(aite_id).collection('message').add({
+                                                            uid: aite_id,
+                                                            isMine: true,
+                                                            date: date,
+                                                            message: 'トークルームを開設しました。',
+                                                        });
+                                                        await db.collection('users').doc(aite_id).collection('chat').doc(userId).collection('message').add({
+                                                            uid: userId,
+                                                            isMine: false,
+                                                            date: date,
+                                                            message: 'トークルームを開設しました。',
+                                                        });
+                                                    }
                                                 });
-                                                await db.collection('users').doc(aite_id).collection('chat').doc(userId).set({
-                                                    uid: userId,
-                                                });
-                                                await db.collection('users').doc(userId).collection('chat').doc(aite_id).collection('message').add({
-                                                    uid: aite_id,
-                                                    isMine: true,
-                                                    date: date,
-                                                    message: 'トークルームを開設しました。',
-                                                });
-                                                await db.collection('users').doc(aite_id).collection('chat').doc(userId).collection('message').add({
-                                                    uid: userId,
-                                                    isMine: false,
-                                                    date: date,
-                                                    message: 'トークルームを開設しました。',
-                                                });
+
+                                                window.location.href = "./index.html#" + aite_id;
+                                                
                                             });
                                         }).catch((error) => {
                                             
