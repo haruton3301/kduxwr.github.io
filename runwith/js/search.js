@@ -33,28 +33,33 @@ window.onload = function() {
                     .orderBy("date", "desc").limit(1)
                     .get()
                     .then((querySnapshot) => {
-                        querySnapshot.forEach((doc) => {
-                            let data = doc.data();
-            
-                            gdb.collection('workouts').near({ 
-                                // 中心となる座標をGeoPointで指定
-                                center: data.g.geopoint,
-                                // 中心座標からの半径(km)を指定
-                                radius: 20,
-                            }).get().then((d) => {
-                                let searchUsers = [];
-                                d.forEach((doc) => {
-                                    let data = doc.data();
-                                    console.log(data);
-                                    searchUsers.push(data.uid);
+                        if(0 < querySnapshot.length) {
+                            $('.non-search-list').hide();
+                            querySnapshot.forEach((doc) => {
+                                let data = doc.data();
+                
+                                gdb.collection('workouts').near({ 
+                                    // 中心となる座標をGeoPointで指定
+                                    center: data.g.geopoint,
+                                    // 中心座標からの半径(km)を指定
+                                    radius: 20,
+                                }).get().then((d) => {
+                                    let searchUsers = [];
+                                    d.forEach((doc) => {
+                                        let data = doc.data();
+                                        console.log(data);
+                                        searchUsers.push(data.uid);
+                                    });
+                                    let set = new Set(searchUsers);
+                                    searchUsers = Array.from(set);
+                                    let index = searchUsers.indexOf(userId);
+                                    searchUsers.splice(index, 1);
+                                    console.log(searchUsers);
                                 });
-                                let set = new Set(searchUsers);
-                                searchUsers = Array.from(set);
-                                let index = searchUsers.indexOf(userId);
-                                searchUsers.splice(index, 1);
-                                console.log(searchUsers);
                             });
-                        });
+                        } else {
+                            $('.non-search-list').show();
+                        }
                     })
                     .catch((error) => {
                         console.log("Error getting documents: ", error);
