@@ -13,9 +13,12 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+var userId;
+var aite_id;
 window.onload = function() {
     $('.non-chat-list').hide();
-    var userId;
+    $('.message-sender').hide();
+
     firebase.auth().onAuthStateChanged(user => {
         if (user) {
             console.log('logged in');
@@ -46,8 +49,11 @@ window.onload = function() {
                                         $('.chat-list').hide();
                                         $('.message-list').show();
                                         $('.message-list').empty();
+                                        $('.message-sender').show();
+                                        $('.message-sender input').val('');
 
                                         let chat_id = $(this).attr('class');
+                                        aite_id = chat_id;
 
                                         db.collection("users").doc(userId).collection('chat').doc(chat_id).collection('message')
                                         .get()
@@ -63,7 +69,7 @@ window.onload = function() {
                                                     if(data.isMine) {
                                                         html = '<div class="message-child mine">' + message + '</div>';
                                                     } else {
-                                                        tml = '<div class="message-child other">' + message + '</div>';
+                                                        html = '<div class="message-child other">' + message + '</div>';
                                                     }
 
                                                     $(html).appendTo('.message-list');
@@ -117,5 +123,25 @@ window.onload = function() {
     });
 }
 
+$('.message-sender button').on('click', async function() {
+    let message = await $('.message-sender input').val();
+    let date = new Date();
+    await db.collection('users').doc(userId).collection('chat').doc(aite_id).collection('message').add({
+        uid: aite_id,
+        isMine: true,
+        date: date,
+        message: message,
+    });
+    await db.collection('users').doc(aite_id).collection('chat').doc(userId).collection('message').add({
+        uid: userId,
+        isMine: false,
+        date: date,
+        message: message,
+    });
+
+    $('.message-sender input').val('');
+    html = '<div class="message-child mine">' + message + '</div>';
+    $(html).appendTo('.message-list');
+});
 
 
