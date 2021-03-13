@@ -54,8 +54,9 @@ window.onload = function() {
 
                                         let chat_id = $(this).attr('class');
                                         aite_id = chat_id;
-
-                                        db.collection("users").doc(userId).collection('chat').doc(chat_id).collection('message')
+                                        
+                                        var count = 0;
+                                        await db.collection("users").doc(userId).collection('chat').doc(chat_id).collection('message')
                                         .orderBy("date").limit(20).get()
                                         .then((querySnapshot) => {
                                             console.log(querySnapshot);
@@ -64,6 +65,7 @@ window.onload = function() {
                                                     let data = doc.data();
                                                     console.log(data);
                                                     let message = data.message;
+                                                    count++;
 
                                                     let html;
                                                     if(data.isMine) {
@@ -77,20 +79,22 @@ window.onload = function() {
                                             }
                                         });
 
-                                        // db.collection("users").doc(userId).collection('chat')
-                                        // .doc(chat_id).collection('message')
-                                        // .onSnapshot((snapshot) => {
-                                        //     snapshot.docChanges().forEach((change) => {
-                                        //         if (change.type === "added") {
-                                        //             let data = change.doc.data();
-
-                                        //             if(!data.isMine) {
-                                        //                 html = '<div class="message-child other">' + data.message + '</div>';
-                                        //                 $(html).appendTo('.message-list');
-                                        //             }
-                                        //         }
-                                        //     });
-                                        // });
+                                        await db.collection("users").doc(userId).collection('chat')
+                                        .doc(chat_id).collection('message')
+                                        .onSnapshot((snapshot) => {
+                                            snapshot.docChanges().forEach((change) => {
+                                                if (change.type === "added") {
+                                                    let data = change.doc.data();
+                                                    if(0 < count) {
+                                                        if(!data.isMine) {
+                                                            html = '<div class="message-child other">' + data.message + '</div>';
+                                                            $(html).appendTo('.message-list');
+                                                        }
+                                                        count--;
+                                                    }
+                                                }
+                                            });
+                                        });
 
 
                                         // let aite_id = $(this).attr('class');
