@@ -482,6 +482,10 @@ main.register {
   font-weight: bold;
 }
 
+.message-list {
+  padding-bottom: 160px;
+}
+
 .message-child {
   padding: 16px;
   border-radius: 20px;
