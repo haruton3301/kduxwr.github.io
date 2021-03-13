@@ -55,7 +55,7 @@ window.onload = function() {
                                     searchUsers = Array.from(set);
                                     let index = searchUsers.indexOf(userId);
                                     searchUsers.splice(index, 1);
-                                    
+
                                     db.collection('users').doc(userId).collection('requests')
                                     .get().then(function(request) {
                                         let request_id = [];
@@ -69,6 +69,8 @@ window.onload = function() {
                                             if(index)
                                                 searchUsers.splice(index, 1);
                                         });
+
+                                        console.log(searchUsers);
                                         
                                         searchUsers.forEach((uid) => {
                                             let userRef = db.collection('users').doc(uid);
@@ -92,7 +94,6 @@ window.onload = function() {
                                             });
                                         });
                                     });
-                                    console.log(searchUsers);
                                 });
                             });
                         } else {
