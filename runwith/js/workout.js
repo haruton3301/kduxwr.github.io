@@ -177,11 +177,11 @@ $('.end-button').on('click', function() {
     $('.workout').hide();
     $('.workresult').show();
 
-    const lat = gpsHist[0].lat;
-    const lng = gpsHist[0].lng;
+    const clat = gpsHist[0].lat;
+    const clng = gpsHist[0].lng;
     map = new Microsoft.Maps.Map('.map', {
     center: {
-        latitude: lat, longitude: lng,
+        latitude: clat, longitude: clng,
     },
     mapTypeId: Microsoft.Maps.MapTypeId.road,
     enableSearchLogo: false,
