@@ -482,6 +482,24 @@ main.register {
   font-weight: bold;
 }
 
+.message-child {
+  padding: 16px;
+  border-radius: 20px;
+  font-size: 16px;
+  color: black;
+  margin: 4px;
+}
+
+.message-child.mine {
+  color: yellowgreen;
+  text-align: right;
+}
+
+.message-child.other {
+  color: #ccc;
+  text-align: left;
+}
+
 /* ーーー　サーチ　ーーー */
 
 .non-search-list {
