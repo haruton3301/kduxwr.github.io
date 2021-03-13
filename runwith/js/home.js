@@ -43,6 +43,11 @@ window.onload = function() {
             userId = user.uid;
     
             console.log(userId);
+
+            let userDoc = await db.collection('users').doc(userId).get();
+            if (!userDoc.exists) {
+                window.location.href = "./register.html";
+            }
     
             db.collection("workouts").where("uid", "==", userId)
             .orderBy("date", "desc").limit(10)
@@ -62,7 +67,7 @@ window.onload = function() {
                     let html = `<div class="workout-child">
                         <div class="date">` + dateTimeText + `</div>
                         <div class="map"></div>
-                        <div class="distance">走行距離　` + distance + `KM</div>
+                        <div class="distance">走行距離　` + distance.toFixed(2) + `KM</div>
                         <div class="time">経過時間　` + time + `</div>
                         <div class="ave">平均速度　` + ave + `</div>
                     </div>`;
