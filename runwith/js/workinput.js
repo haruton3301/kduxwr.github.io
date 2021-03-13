@@ -37,6 +37,7 @@ const option = {
 };
 function mapsInit(position) {
     $('.workinput-exe-button').show();
+    console.log('aaa');
     const lat = position.coords.latitude;
     const lng = position.coords.longitude;
     map = new Microsoft.Maps.Map('.map', {
