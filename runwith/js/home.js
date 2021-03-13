@@ -44,6 +44,7 @@ firebase.auth().onAuthStateChanged(user => {
         console.log(userId);
 
         db.collection("workouts").where("uid", "==", userId)
+        .orderBy("name").limit(10)
         .get()
         .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
@@ -55,6 +56,7 @@ firebase.auth().onAuthStateChanged(user => {
                 let distance = data.distance;
                 let time = sec2str(data.time);
                 let ave = convertAveTime(data.ave);
+                let gpsHist = data.map;
 
                 let html = `<div class="workout-child">
                     <div class="date">` + dateTimeText + `</div>
@@ -66,6 +68,35 @@ firebase.auth().onAuthStateChanged(user => {
 
                 let child = $(html).appendTo('.workout-list');
                 console.log(doc.id, " => ", doc.data());
+
+                let map = new Microsoft.Maps.Map(child.find('.map').get(0), {
+                    mapTypeId: Microsoft.Maps.MapTypeId.road,
+                    enableSearchLogo: false,
+                    enableClickableLogo:false,
+                    showDashboard:false,
+                    zoom: 15,
+                });
+
+                let coords = [];
+                for(let i = 0; i < gpsHist.length; i++) {
+                    let location = new Microsoft.Maps.Location(gpsHist[i].lat, gpsHist[i].lng);
+                    coords.push(location);
+                }
+
+                            //Create a polyline
+                let line = new Microsoft.Maps.Polyline(coords, {
+                    strokeColor: 'red',
+                    strokeThickness: 3,
+                    //strokeDashArray: [4, 4]
+                });
+
+                //Add the polyline to map
+                map.entities.push(line);
+
+                map.setView({
+                    bounds: Microsoft.Maps.LocationRect.fromLocations(coords),
+                    padding: 100 //Add a padding to buffer map to account for pushpin pixel dimensions
+                });
             });
         })
         .catch((error) => {
