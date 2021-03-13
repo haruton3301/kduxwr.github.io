@@ -57,7 +57,16 @@ window.onload = function() {
                                                 querySnapshot.forEach((doc) => {
                                                     let data = doc.data();
                                                     console.log(data);
+                                                    let message = data.message;
 
+                                                    let html;
+                                                    if(data.isMine) {
+                                                        html = '<div class="message-child mine">' + message + '</div>';
+                                                    } else {
+                                                        tml = '<div class="message-child other">' + message + '</div>';
+                                                    }
+
+                                                    $(html).appendTo('.message-list');
                                                 });
                                             }
                                         });
