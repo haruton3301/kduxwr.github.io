@@ -75,9 +75,17 @@ $('.workinput-exe-button').on('click', function() {
     let lng = center.longitude;
     let date = new Date();
     let mapCenter = {lat, lng};
+    let distance = Number($('.input-distance').val());
+    let min = Number($('.input-min').val());
+    let sec = Number($('.input-sec').val());
+    let time = min * 60 + sec;
+    let ave = Math.floor(time / distance);
     collection.add({
         uid: userId,
         date: date,
+        distance: distance,
+        time: time,
+        ave: ave,
         coordinates: new firebase.firestore.GeoPoint(lat, lng),
         map: [mapCenter],
     });
