@@ -8,19 +8,16 @@ var firebaseConfig = {
     appId: "1:683736651114:web:ef9bf56c84355609b78113",
     measurementId: "G-X1NCY7LC7S"
     };
-    
 
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
 var userId;
 var aite_id;
 window.onload = function() {
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    
     $('.non-chat-list').hide();
     $('.message-sender').hide();
-
 
     firebase.auth().onAuthStateChanged(user => {
         if (user) {
@@ -30,7 +27,7 @@ window.onload = function() {
             console.log(userId);
 
             let userRef = db.collection('users').doc(userId);
-            userRef.get().then((doc) => {
+            userRef.get().then( async (doc) => {
                 if (doc.exists) {
                     let urlHash = location.hash;
                     let user_id = urlHash.slice(1);
