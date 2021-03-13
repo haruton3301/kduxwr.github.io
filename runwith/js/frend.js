@@ -26,7 +26,7 @@ window.onload = function() {
             let userRef = db.collection('users').doc(userId);
             userRef.get().then((doc) => {
                 if (doc.exists) {
-                    db.collection("users").doc(userId)
+                    db.collection("users").doc(userId).collection
                     .get()
                     .then((querySnapshot) => {
                         console.log(querySnapshot);

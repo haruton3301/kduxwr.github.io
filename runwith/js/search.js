@@ -63,6 +63,12 @@ window.onload = function() {
                                             added.find('button').on('click', async function() {
                                                 let aite_id = $(this).attr('class');
                                                 let date = new Date();
+                                                await db.collection('users').doc(userId).collection('chat').doc(aite_id).set({
+                                                    uid: aite_id,
+                                                });
+                                                await db.collection('users').doc(aite_id).collection('chat').doc(userId).set({
+                                                    uid: userId,
+                                                });
                                                 await db.collection('users').doc(userId).collection('chat').doc(aite_id).collection('message').add({
                                                     uid: aite_id,
                                                     isMine: true,
@@ -95,18 +101,6 @@ window.onload = function() {
             }).catch((error) => {
                 window.location.href = "./register.html";
             });
-
-            gdb.collection('test').near({ 
-                // 中心となる座標をGeoPointで指定
-                center: new firebase.firestore.GeoPoint(35.306767, 138.9606928), 
-                // 中心座標からの半径(km)を指定
-                radius: 5 
-            }).get().then((d) => {
-                // ...略
-            });
-            
-
-            
         } else {
             window.location.href = "./index.html";
         } 
