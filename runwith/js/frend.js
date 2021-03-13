@@ -54,11 +54,14 @@ window.onload = function() {
 
                                         let chat_id = $(this).attr('class');
                                         aite_id = chat_id;
+
+                                        var count = 0;
                                         
                                         await db.collection("users").doc(userId).collection('chat').doc(chat_id).collection('message')
                                         .orderBy("date").limit(20).get()
                                         .then((querySnapshot) => {
                                             console.log(querySnapshot);
+                                            count = querySnapshot.size;
                                             if(0 < querySnapshot.size) {
                                                 querySnapshot.forEach((doc) => {
                                                     let data = doc.data();
@@ -77,21 +80,22 @@ window.onload = function() {
                                             }
                                         });
                                         
-                                        setTimeout(function() {
-                                        db.collection("users").doc(userId).collection('chat')
+                                        await db.collection("users").doc(userId).collection('chat')
                                         .doc(chat_id).collection('message')
                                         .onSnapshot((snapshot) => {
                                             snapshot.docChanges().forEach((change) => {
                                                 if (change.type === "added") {
                                                     let data = change.doc.data();
-                                                    if(!data.isMine) {
+                                                    if(!data.isMine && 0 == count) {
+                                                        
                                                         html = '<div class="message-child other">' + data.message + '</div>';
                                                         $(html).appendTo('.message-list');
                                                     }
+                                                    count--;
+                                                    console.log(count);
                                                 }
                                             });
                                         });
-                                    }, 1000);
 
 
                                         // let aite_id = $(this).attr('class');
