@@ -149,6 +149,10 @@ footer.top p {
   color: white;
 }
 
+/* ーーー　ホーム　ーーー */
+.workout-list .map {
+  height: 240px;
+}
 
 /* ーーー　ワークアウト　ーーー */
 
