@@ -458,3 +458,11 @@ main.register {
   font-size: 24px;
   padding: 16px;
 }
+
+.search-child span {
+  height: 64px;
+  line-height: 64px;
+  color: white;
+  font-size: 24px;
+  padding-right: 16px;
+}
