@@ -150,9 +150,6 @@ footer.top p {
 }
 
 /* ーーー　ホーム　ーーー */
-main.home {
-  padding: 5%;
-}
 .workout-child {
   color: white;
 }
@@ -162,6 +159,8 @@ main.home {
 }
 .workout-child .map {
   height: 240px;
+  width: 80%;
+  margin: 0 10%;
 }
 .workout-child .distance
 ,.workout-child .time
