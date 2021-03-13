@@ -64,7 +64,8 @@ window.onload = function() {
                                             let html = '<div class="search-child">' + name + '<button class="' + uid + '">追加リクエスト</button></div>';
                                             let added = $(html).appendTo('.search-list');
                                             added.find('button').on('click', function() {
-
+                                                let user_id = $(this).attr('class');
+                                                $(this).parent().hide();
                                             });
                                         }).catch((error) => {
                                             
