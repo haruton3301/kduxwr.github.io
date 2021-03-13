@@ -41,7 +41,7 @@ window.onload = function() {
                                 center: data.g.geopoint,
                                 // 中心座標からの半径(km)を指定
                                 radius: 20,
-                            }).where("uid", "!=", userId).limit(20)
+                            }).where("uid", "!=", userId)
                             .get().then((d) => {
                                 d.forEach((doc) => {
                                     console.log(doc.data());
