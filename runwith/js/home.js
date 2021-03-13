@@ -15,32 +15,25 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-function getStringFromDate(date) {
- 
-    var year_str = date.getFullYear();
-    //月だけ+1すること
-    var month_str = 1 + date.getMonth();
-    var day_str = date.getDate();
-    var hour_str = date.getHours();
-    var minute_str = date.getMinutes();
-    var second_str = date.getSeconds();
-    
-    // month_str = ('0' + month_str).slice(-2);
-    // day_str = ('0' + day_str).slice(-2);
-    // hour_str = ('0' + hour_str).slice(-2);
-    // minute_str = ('0' + minute_str).slice(-2);
-    // second_str = ('0' + second_str).slice(-2);
-    
-    format_str = 'YYYY年MM月DD hh:mm';
-    format_str = format_str.replace(/YYYY/g, year_str);
-    format_str = format_str.replace(/MM/g, month_str);
-    format_str = format_str.replace(/DD/g, day_str);
-    format_str = format_str.replace(/hh/g, hour_str);
-    format_str = format_str.replace(/mm/g, minute_str);
-    format_str = format_str.replace(/ss/g, second_str);
-    
-    return format_str;
-   };
+function convertAveTime(aveTime) {
+    let min = Math.floor(aveTime / 60);
+    let sec = Math.floor(aveTime % 60);
+    let pmin = ( '00' + min ).slice( -2 );
+    let psec = ( '00' + sec ).slice( -2 );
+
+    return pmin + '分' + psec + '秒 / キロ';
+}
+
+function sec2str(second) {
+    let min = Math.floor(second / 60);
+    let sec = Math.floor(second % 60);
+    let hour = Math.floor(min / 60);
+    min = Math.floor(min % 60);
+    let phour = ( '00' + hour ).slice( -2 );
+    let pmin = ( '00' + min ).slice( -2 );
+    let psec = ( '00' + sec ).slice( -2 );
+    return (phour + ':' + pmin + ':' + psec);
+}
 
 var userId;
 firebase.auth().onAuthStateChanged(user => {
@@ -60,8 +53,8 @@ firebase.auth().onAuthStateChanged(user => {
                 let timeText = date.toLocaleTimeString('ja-JP');
                 let dateTimeText = dateText + timeText;
                 let distance = data.distance;
-                let time = data.time;
-                let ave = data.ave;
+                let time = sec2str(data.time);
+                let ave = convertAveTime(data.ave);
 
                 let html = `<div class="workout-child">
                     <div class="date">` + dateTimeText + `</div>
