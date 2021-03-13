@@ -56,44 +56,26 @@ window.onload = function() {
                                     let index = searchUsers.indexOf(userId);
                                     searchUsers.splice(index, 1);
 
-                                    db.collection('users').doc(userId).collection('requests')
-                                    .get().then(async function(request) {
-                                        
-                                        for(let i = 0; i < request.length + 1; i++) {
-                                            if(i == request.length) {
-                                                console.log(searchUsers);
-                                        
-                                                searchUsers.forEach((uid) => {
-                                                    let userRef = db.collection('users').doc(uid);
-                                                    userRef.get().then((doc) => {
-                                                        let data = doc.data();
-                                                        let name = data.display_name;
-                                                        let html = '<div class="search-child">' + name + '<button class="' + uid + '">追加リクエスト</button></div>';
-                                                        let added = $(html).appendTo('.search-list');
-                                                        added.find('button').on('click', function() {
-                                                            let aite_id = $(this).attr('class');
-                                                            $(this).parent().hide();
-                                                            db.collection('users').doc(userId).collection('requests').add({
-                                                                uid: aite_id,
-                                                            });
-                                                            db.collection('users').doc(aite_id).collection('accepts').add({
-                                                                uid: userId,
-                                                            });
-                                                        });
-                                                    }).catch((error) => {
-                                                        
-                                                    });
+                                    searchUsers.forEach((uid) => {
+                                        let userRef = db.collection('users').doc(uid);
+                                        userRef.get().then((doc) => {
+                                            let data = doc.data();
+                                            let name = data.display_name;
+                                            let html = '<div class="search-child">' + name + '<button class="' + uid + '">追加リクエスト</button></div>';
+                                            let added = $(html).appendTo('.search-list');
+                                            added.find('button').on('click', function() {
+                                                let aite_id = $(this).attr('class');
+                                                $(this).parent().hide();
+                                                db.collection('users').doc(userId).collection('requests').add({
+                                                    uid: aite_id,
                                                 });
-                                            } else {
-                                                let doc = request[i];
-                                                let data = doc.data();
-                                                console.log(data.uid);
-    
-                                                let index = searchUsers.indexOf(data.uid);
-                                                if(0 < index)
-                                                    searchUsers.splice(index, 1);
-                                            }
-                                        }
+                                                db.collection('users').doc(aite_id).collection('accepts').add({
+                                                    uid: userId,
+                                                });
+                                            });
+                                        }).catch((error) => {
+                                            
+                                        });
                                     });
                                 });
                             });
