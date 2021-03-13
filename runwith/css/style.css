@@ -18,6 +18,7 @@ nav {
   position: fixed;
   left: 0;
   bottom: 0;
+  z-index: 100000000000000;
   background: #333;
   border-top: 1px solid #999;
 }
@@ -152,6 +153,8 @@ footer.top p {
 /* ーーー　ホーム　ーーー */
 .workout-child {
   color: white;
+  padding: 8px 0;
+  border-top: 1px solid #ccc;
 }
 .workout-child .date {
   font-size: 24px;
