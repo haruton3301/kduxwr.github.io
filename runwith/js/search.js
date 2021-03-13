@@ -66,11 +66,11 @@ window.onload = function() {
                                             added.find('button').on('click', function() {
                                                 let aite_id = $(this).attr('class');
                                                 $(this).parent().hide();
-                                                db.collection('users').doc(uid).collection('requests').add({
+                                                db.collection('users').doc(userId).collection('requests').add({
                                                     uid: aite_id,
                                                 });
                                                 db.collection('users').doc(aite_id).collection('accepts').add({
-                                                    uid: uid,
+                                                    uid: userId,
                                                 });
                                             });
                                         }).catch((error) => {
