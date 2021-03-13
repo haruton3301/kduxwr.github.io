@@ -44,7 +44,7 @@ firebase.auth().onAuthStateChanged(user => {
         console.log(userId);
 
         db.collection("workouts").where("uid", "==", userId)
-        .orderBy("name").limit(10)
+        .orderBy("date").limit(10)
         .get()
         .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
