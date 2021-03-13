@@ -57,16 +57,18 @@ window.onload = function() {
                                     searchUsers.splice(index, 1);
 
                                     db.collection('users').doc(userId).collection('requests')
-                                    .get().then(function(request) {
+                                    .get().then(async function(request) {
                                         let request_id = [];
+                                        
                                         request.forEach(function(doc) {
                                             let data = doc.data();
                                             request_id.push(data.uid);
+                                            console.log(data.uid);
                                         });
 
-                                        request_id.forEach((uid) => {
-                                            let index = searchUsers.indexOf(uid);
-                                            if(index)
+                                        request_id.forEach((reid) => {
+                                            let index = searchUsers.indexOf(reid);
+                                            if(0 < index)
                                                 searchUsers.splice(index, 1);
                                         });
 
