@@ -27,7 +27,7 @@ firebase.auth().onAuthStateChanged(user => {
 
 const db = firebase.firestore();
 
-db.collection("workouts").where("uid", "==", userid)
+db.collection("workouts").where("uid", "==", userId)
     .get()
     .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
