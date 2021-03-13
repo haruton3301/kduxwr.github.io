@@ -537,6 +537,12 @@ main.register {
   padding: 16px;
 }
 
+.ex-search-list {
+  color: white;
+  font-size: 24px;
+  padding: 16px;
+}
+
 .search-child {
   display: flex;
   justify-content: center;

@@ -97,6 +97,7 @@ window.onload = function() {
                             });
                         } else {
                             $('.non-search-list').show();
+                            $('.ex-search-list').hide();
                         }
                     })
                     .catch((error) => {
