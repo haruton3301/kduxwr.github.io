@@ -61,14 +61,14 @@ firebase.auth().onAuthStateChanged(user => {
                 let dateTimeText = dateText + timeText;
                 let distance = data.distance;
                 let time = data.time;
-                let speed = data.speed;
+                let ave = data.ave;
 
                 let html = `<div class="workout-child">
                     <div class="date">` + dateTimeText + `</div>
                     <div class="map"></div>
                     <div class="distance">` + distance + `</div>
                     <div class="time">` + time + `</div>
-                    <div class="speed">` + speed + `</div>
+                    <div class="ave">` + ave + `</div>
                 </div>`;
 
                 let child = $(html).appendTo('.workout-list');
