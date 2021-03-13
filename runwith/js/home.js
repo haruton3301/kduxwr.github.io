@@ -61,7 +61,7 @@ firebase.auth().onAuthStateChanged(user => {
                 let html = `<div class="workout-child">
                     <div class="date">` + dateTimeText + `</div>
                     <div class="map"></div>
-                    <div class="distance">走行距離　` + distance + `</div>
+                    <div class="distance">走行距離　` + distance + `KM</div>
                     <div class="time">経過時間　` + time + `</div>
                     <div class="ave">平均速度　` + ave + `</div>
                 </div>`;
