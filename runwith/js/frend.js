@@ -33,8 +33,40 @@ window.onload = function() {
                         if(0 < querySnapshot.size) {
                             querySnapshot.forEach((doc) => {
                                 let data = doc.data();
-
+                                let uid = data.uid;
                                 console.log(data);
+
+                                let userRef = db.collection('users').doc(uid);
+                                userRef.get().then((doc) => {
+                                    let data = doc.data();
+                                    let name = data.display_name;
+                                    let html = '<div class="chat-child">' + name + '<button class="' + uid + '">メッセージ</button></div>';
+                                    let added = $(html).appendTo('.chat-list');
+                                    added.find('button').on('click', async function() {
+                                        // let aite_id = $(this).attr('class');
+                                        // let date = new Date();
+                                        // await db.collection('users').doc(userId).collection('chat').doc(aite_id).set({
+                                        //     uid: aite_id,
+                                        // });
+                                        // await db.collection('users').doc(aite_id).collection('chat').doc(userId).set({
+                                        //     uid: userId,
+                                        // });
+                                        // await db.collection('users').doc(userId).collection('chat').doc(aite_id).collection('message').add({
+                                        //     uid: aite_id,
+                                        //     isMine: true,
+                                        //     date: date,
+                                        //     message: 'トークルームを開設しました。',
+                                        // });
+                                        // await db.collection('users').doc(aite_id).collection('chat').doc(userId).collection('message').add({
+                                        //     uid: userId,
+                                        //     isMine: false,
+                                        //     date: date,
+                                        //     message: 'トークルームを開設しました。',
+                                        // });
+                                    });
+                                }).catch((error) => {
+                                    
+                                });
            
                                 
                             });
