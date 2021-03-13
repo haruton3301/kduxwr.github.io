@@ -96,9 +96,9 @@ function gpsIntervalFunc() {
             if(speed == null || speed == 0) {
                 $('.speed').text('ー');
             } else {
-                let speedConvert = 1000 / speed;
+                let speedConvert = 1 / speed / 1000;
                 smin = Math.floor(speedConvert / 60);
-                ssec = speedConvert % 60;
+                ssec = Math.floor(speedConvert % 60);
                 speedText = smin + '分' + ssec + '秒 / キロ';
                 $('.speed').text(speedText);
             }
