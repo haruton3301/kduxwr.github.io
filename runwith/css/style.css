@@ -176,7 +176,6 @@ footer.top p {
 
 footer.home {
   padding: 16px 0;
-  margin-top: 24px;
   height: 152px;
   background: #000;
 }
@@ -189,6 +188,7 @@ footer.home p {
 }
 
 .logout-button {
+  margin-top: 24px;
   width: 100%;
   height: 80px;
   line-height: 80px;
