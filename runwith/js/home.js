@@ -106,7 +106,7 @@ window.onload = function() {
     
                     map.setView({
                         bounds: Microsoft.Maps.LocationRect.fromLocations(coords),
-                        padding: 100 //Add a padding to buffer map to account for pushpin pixel dimensions
+                        padding: 24 //Add a padding to buffer map to account for pushpin pixel dimensions
                     });
                 });
             })
