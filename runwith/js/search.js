@@ -42,9 +42,17 @@ window.onload = function() {
                                 // 中心座標からの半径(km)を指定
                                 radius: 20,
                             }).get().then((d) => {
+                                let searchUsers = [];
                                 d.forEach((doc) => {
-                                    console.log(doc.data());
+                                    let data = doc.data();
+                                    console.log(data);
+                                    searchUsers.push(data.uid);
                                 });
+                                let set = new Set(searchUsers);
+                                searchUsers = Array.from(set);
+                                let index = fruits.indexOf(userId);
+                                searchUsers.splice(index, 1);
+                                console.log(searchUsers);
                             });
                         });
                     })
