@@ -61,9 +61,9 @@ firebase.auth().onAuthStateChanged(user => {
                 let html = `<div class="workout-child">
                     <div class="date">` + dateTimeText + `</div>
                     <div class="map"></div>
-                    <div class="distance">` + distance + `</div>
-                    <div class="time">` + time + `</div>
-                    <div class="ave">` + ave + `</div>
+                    <div class="distance">走行距離　` + distance + `</div>
+                    <div class="time">経過時間　` + time + `</div>
+                    <div class="ave">平均速度　` + ave + `</div>
                 </div>`;
 
                 let child = $(html).appendTo('.workout-list');
@@ -83,7 +83,7 @@ firebase.auth().onAuthStateChanged(user => {
                     coords.push(location);
                 }
 
-                            //Create a polyline
+                //Create a polyline
                 let line = new Microsoft.Maps.Polyline(coords, {
                     strokeColor: 'red',
                     strokeThickness: 3,

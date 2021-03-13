@@ -150,8 +150,19 @@ footer.top p {
 }
 
 /* ーーー　ホーム　ーーー */
-.workout-list .map {
+.workout-child {
+  color: white;
+}
+.workout-child .date {
+  font-size: 24px;
+}
+.workout-child .map {
   height: 240px;
+}
+.workout-child .distance
+,.workout-child .time
+,.workout-child .ave {
+  font-size: 16px;
 }
 
 /* ーーー　ワークアウト　ーーー */
