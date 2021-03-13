@@ -10,6 +10,9 @@ var firebaseConfig = {
     
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const gdb = new GeoFirestore(firestore);
+const collection = gdb.collection('workouts');
 
 var userId;
 firebase.auth().onAuthStateChanged(user => {
@@ -30,11 +33,6 @@ firebase.auth().onAuthStateChanged(user => {
         window.location.href = "./index.html";
     } 
   });
-
-
-const firestore = firebase.firestore();
-const geoFirestore = new GeoFirestore(firestore);
-const collection = geoFirestore.collection('workouts');
 
 $('.pause-button').hide();
 $('.restart-button').hide();
