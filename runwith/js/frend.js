@@ -77,20 +77,20 @@ window.onload = function() {
                                             }
                                         });
 
-                                        db.collection("users").doc(userId).collection('chat')
-                                        .doc(chat_id).collection('message')
-                                        .onSnapshot((snapshot) => {
-                                            snapshot.docChanges().forEach((change) => {
-                                                if (change.type === "added") {
-                                                    let data = change.doc.data();
+                                        // db.collection("users").doc(userId).collection('chat')
+                                        // .doc(chat_id).collection('message')
+                                        // .onSnapshot((snapshot) => {
+                                        //     snapshot.docChanges().forEach((change) => {
+                                        //         if (change.type === "added") {
+                                        //             let data = change.doc.data();
 
-                                                    if(!data.isMine) {
-                                                        html = '<div class="message-child other">' + data.message + '</div>';
-                                                        $(html).appendTo('.message-list');
-                                                    }
-                                                }
-                                            });
-                                        });
+                                        //             if(!data.isMine) {
+                                        //                 html = '<div class="message-child other">' + data.message + '</div>';
+                                        //                 $(html).appendTo('.message-list');
+                                        //             }
+                                        //         }
+                                        //     });
+                                        // });
 
 
                                         // let aite_id = $(this).attr('class');
