@@ -86,7 +86,7 @@ window.onload = function() {
                                                     }
                                                 });
 
-                                                window.location.href = "./index.html#" + aite_id;
+                                                window.location.href = "./frend.html#" + aite_id;
                                                 
                                             });
                                         }).catch((error) => {
