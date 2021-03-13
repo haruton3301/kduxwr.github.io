@@ -32,7 +32,7 @@ $('.login-button').on('click', function() {
 
 firebase.auth().onAuthStateChanged(user => {
     if (user) {
-        let userRef = db.collection('users').doc(userId);
+        let userRef = db.collection('users').doc(user.uid);
         userRef.get().then((doc) => {
             if (doc.exists) {
                 window.location.href = "./home.html";
